@@ -5,36 +5,105 @@ import Link from 'next/link';
 import type { PlatformStats } from '@/types';
 
 // ---------------------------------------------------------------------------
-// Animated counter hook
+// Intersection Observer hook – triggers CSS class "visible" on scroll
 // ---------------------------------------------------------------------------
 
-function useAnimatedCounter(target: number, duration = 1500): number {
-  const [value, setValue] = useState(0);
-  const ref = useRef<number | null>(null);
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (target === 0) return;
-    const start = performance.now();
-    const from = 0;
+    const el = ref.current;
+    if (!el) return;
 
-    function tick(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.floor(from + (target - from) * eased));
-      if (progress < 1) {
-        ref.current = requestAnimationFrame(tick);
-      }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('visible');
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
+// ---------------------------------------------------------------------------
+// Mouse-tracking parallax hook for hero background
+// ---------------------------------------------------------------------------
+
+function useParallax() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    function handleMove(e: MouseEvent) {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 30;
+      el!.style.transform = `translate(${x}px, ${y}px)`;
     }
 
-    ref.current = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+
+  return ref;
+}
+
+// ---------------------------------------------------------------------------
+// Animated counter hook (starts when visible)
+// ---------------------------------------------------------------------------
+
+function useAnimatedCounter(target: number, duration = 1500): {
+  value: number;
+  ref: React.RefObject<HTMLDivElement>;
+} {
+  const [value, setValue] = useState(0);
+  const elRef = useRef<HTMLDivElement>(null);
+  const animRef = useRef<number | null>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = elRef.current;
+    if (!el || target === 0) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const start = performance.now();
+
+          const tick = (now: number) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setValue(Math.floor(target * eased));
+            if (progress < 1) {
+              animRef.current = requestAnimationFrame(tick);
+            }
+          };
+
+          animRef.current = requestAnimationFrame(tick);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(el);
     return () => {
-      if (ref.current) cancelAnimationFrame(ref.current);
+      observer.disconnect();
+      if (animRef.current) cancelAnimationFrame(animRef.current);
     };
   }, [target, duration]);
 
-  return value;
+  return { value, ref: elRef };
 }
 
 // ---------------------------------------------------------------------------
@@ -50,11 +119,11 @@ function AnimatedStat({
   value: number;
   suffix?: string;
 }) {
-  const animated = useAnimatedCounter(value);
+  const counter = useAnimatedCounter(value);
   return (
-    <div className="text-center">
+    <div ref={counter.ref} className="text-center">
       <div className="stat-number">
-        {animated.toLocaleString()}
+        {counter.value.toLocaleString()}
         {suffix && <span className="text-xl ml-1">{suffix}</span>}
       </div>
       <div className="text-sm text-gray-500 mt-1 font-medium">{label}</div>
@@ -63,7 +132,46 @@ function AnimatedStat({
 }
 
 // ---------------------------------------------------------------------------
-// Skill card component
+// Floating decoration shapes
+// ---------------------------------------------------------------------------
+
+function FloatingShapes() {
+  return (
+    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden>
+      {/* Large blurred blobs */}
+      <div className="absolute top-10 left-10 w-72 h-72 bg-trail-primary/10 rounded-full blur-3xl animate-float-slow" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-trail-secondary/10 rounded-full blur-3xl animate-float" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-trail-accent/5 rounded-full blur-3xl animate-float-slow" />
+
+      {/* Small floating geometric shapes */}
+      <div className="absolute top-[15%] left-[12%] w-4 h-4 bg-trail-primary/30 rounded-full animate-float" style={{ animationDelay: '0s' }} />
+      <div className="absolute top-[25%] right-[18%] w-3 h-3 bg-trail-secondary/40 rounded animate-float" style={{ animationDelay: '1s' }} />
+      <div className="absolute bottom-[30%] left-[20%] w-5 h-5 bg-trail-accent/30 rounded-lg rotate-45 animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute top-[60%] right-[12%] w-3 h-3 bg-trail-success/30 rounded-full animate-float-slow" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute top-[10%] right-[35%] w-6 h-6 border-2 border-trail-primary/20 rounded-full animate-float" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute bottom-[15%] right-[30%] w-4 h-4 border-2 border-trail-accent/20 rounded rotate-45 animate-float-slow" style={{ animationDelay: '3s' }} />
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Scroll-down indicator
+// ---------------------------------------------------------------------------
+
+function ScrollIndicator() {
+  return (
+    <div className="flex flex-col items-center mt-12 animate-scroll-down">
+      <span className="text-xs text-gray-400 tracking-widest mb-2">SCROLL</span>
+      <svg width="20" height="28" viewBox="0 0 20 28" fill="none" className="text-gray-300">
+        <rect x="1" y="1" width="18" height="26" rx="9" stroke="currentColor" strokeWidth="2" />
+        <circle cx="10" cy="8" r="2" fill="currentColor" className="animate-scroll-down" />
+      </svg>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Skill card component with tilt hover
 // ---------------------------------------------------------------------------
 
 function SkillCard({
@@ -71,44 +179,54 @@ function SkillCard({
   title,
   description,
   color,
+  delay,
 }: {
   emoji: string;
   title: string;
   description: string;
   color: string;
+  delay: number;
 }) {
   return (
-    <div className="card group text-center">
+    <div
+      className="card card-tilt group text-center"
+      style={{ transitionDelay: `${delay}ms` }}
+    >
       <div
-        className={`w-16 h-16 mx-auto mb-4 rounded-2xl ${color} flex items-center justify-center text-3xl shadow-lg group-hover:scale-110 transition-transform`}
+        className={`w-20 h-20 mx-auto mb-5 rounded-2xl ${color} flex items-center justify-center text-4xl shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
       >
         {emoji}
       </div>
-      <h3 className="text-lg font-bold text-trail-dark mb-2">{title}</h3>
+      <h3 className="text-xl font-black text-trail-dark mb-3">{title}</h3>
       <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Subject category card
+// Subject category card with animated gradient border
 // ---------------------------------------------------------------------------
 
 function SubjectCard({
   emoji,
   title,
   color,
+  delay,
 }: {
   emoji: string;
   title: string;
   color: string;
+  delay: number;
 }) {
   return (
     <Link
       href={`/games?category=${title}`}
-      className={`card-game flex flex-col items-center justify-center p-6 bg-gradient-to-br ${color} text-white group`}
+      className={`card-game flex flex-col items-center justify-center p-8 bg-gradient-to-br ${color} text-white group relative overflow-hidden`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
-      <span className="text-4xl mb-2 group-hover:scale-125 transition-transform">
+      {/* Shine overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+      <span className="text-5xl mb-3 group-hover:scale-125 group-hover:animate-wiggle transition-transform duration-300">
         {emoji}
       </span>
       <span className="font-bold text-lg">{title}</span>
@@ -117,7 +235,7 @@ function SubjectCard({
 }
 
 // ---------------------------------------------------------------------------
-// Pricing plan component
+// Pricing plan component with hover glow
 // ---------------------------------------------------------------------------
 
 function PricingCard({
@@ -139,13 +257,18 @@ function PricingCard({
 }) {
   return (
     <div
-      className={`rounded-2xl p-6 md:p-8 flex flex-col ${
+      className={`rounded-2xl p-6 md:p-8 flex flex-col card-tilt relative overflow-hidden ${
         isHighlighted
           ? 'bg-gradient-to-br from-trail-primary to-trail-secondary text-white shadow-2xl scale-105 ring-4 ring-trail-primary/20'
           : 'bg-white shadow-lg border border-gray-100'
       }`}
     >
-      <div className="mb-6">
+      {/* Animated ring for highlighted card */}
+      {isHighlighted && (
+        <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full animate-ripple" />
+      )}
+
+      <div className="mb-6 relative">
         <h3
           className={`text-lg font-bold mb-2 ${
             isHighlighted ? 'text-white' : 'text-trail-dark'
@@ -171,7 +294,7 @@ function PricingCard({
         </div>
       </div>
 
-      <ul className="flex-1 space-y-3 mb-8">
+      <ul className="flex-1 space-y-3 mb-8 relative">
         {features.map((feature, i) => (
           <li key={i} className="flex items-start gap-2 text-sm">
             <span
@@ -190,14 +313,49 @@ function PricingCard({
 
       <Link
         href={ctaHref}
-        className={`block text-center py-3 px-6 rounded-xl font-bold transition-all ${
+        className={`block text-center py-3 px-6 rounded-xl font-bold transition-all relative ${
           isHighlighted
-            ? 'bg-white text-trail-primary hover:bg-gray-100 shadow-lg'
-            : 'bg-trail-primary/10 text-trail-primary hover:bg-trail-primary/20'
+            ? 'bg-white text-trail-primary hover:bg-gray-100 shadow-lg hover:scale-105'
+            : 'bg-trail-primary/10 text-trail-primary hover:bg-trail-primary/20 hover:scale-105'
         }`}
       >
         {cta}
       </Link>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Marquee ticker section
+// ---------------------------------------------------------------------------
+
+function MarqueeTicker() {
+  const items = [
+    '思考力を鍛える',
+    '探究力を伸ばす',
+    '創造力を育む',
+    '理科',
+    '社会',
+    '算数',
+    '美術',
+    '好奇心を刺激',
+    '自分で考える習慣',
+    '遊びながら学ぶ',
+  ];
+
+  return (
+    <div className="py-4 bg-gradient-to-r from-trail-primary via-trail-secondary to-trail-primary overflow-hidden">
+      <div className="animate-marquee whitespace-nowrap flex">
+        {[...items, ...items].map((item, i) => (
+          <span
+            key={i}
+            className="inline-flex items-center mx-6 text-white/90 font-bold text-sm"
+          >
+            <span className="w-1.5 h-1.5 bg-trail-accent rounded-full mr-3 shrink-0" />
+            {item}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -208,9 +366,24 @@ function PricingCard({
 
 export default function HomePage() {
   const [stats, setStats] = useState<PlatformStats | null>(null);
+  const [heroReady, setHeroReady] = useState(false);
+  const parallaxRef = useParallax();
+
+  // Scroll reveal refs for each section
+  const statsRef = useScrollReveal();
+  const skillsHeadRef = useScrollReveal();
+  const skillsGridRef = useScrollReveal();
+  const subjectsHeadRef = useScrollReveal();
+  const subjectsGridRef = useScrollReveal();
+  const pricingHeadRef = useScrollReveal();
+  const pricingGridRef = useScrollReveal();
+  const ctaRef = useScrollReveal();
 
   useEffect(() => {
-    // デモ用モックデータ（Supabase接続後はAPIから取得に切り替え）
+    // Trigger hero entrance animation
+    requestAnimationFrame(() => setHeroReady(true));
+
+    // Demo mock data
     setStats({
       totalPlayers: 1247,
       totalPlayTime: 184320,
@@ -227,60 +400,90 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Hero Section */}
       {/* ================================================================= */}
-      <section className="relative py-16 md:py-28 px-4 overflow-hidden">
-        {/* Background decorations */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-trail-primary/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-trail-secondary/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-trail-accent/5 rounded-full blur-3xl" />
+      <section className="relative py-20 md:py-32 px-4 overflow-hidden min-h-[90vh] flex items-center">
+        {/* Parallax floating background */}
+        <div ref={parallaxRef} className="parallax-bg">
+          <FloatingShapes />
         </div>
 
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-trail-primary/10 text-trail-primary px-4 py-2 rounded-full text-sm font-medium mb-8">
+          <div
+            className={`inline-flex items-center gap-2 bg-trail-primary/10 text-trail-primary px-4 py-2 rounded-full text-sm font-medium mb-8 transition-all duration-700 ${
+              heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+          >
             <span className="w-2 h-2 bg-trail-success rounded-full animate-pulse" />
             探究学習ゲームプラットフォーム
           </div>
 
-          {/* Headline */}
+          {/* Headline – staggered entrance */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-trail-dark leading-tight mb-6">
-            自分で考える
+            <span
+              className={`inline-block transition-all duration-700 delay-200 ${
+                heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
+              自分で考える
+            </span>
             <br />
-            <span className="bg-gradient-to-r from-trail-primary via-trail-secondary to-trail-accent bg-clip-text text-transparent">
+            <span
+              className={`inline-block bg-gradient-to-r from-trail-primary via-trail-secondary to-trail-accent bg-clip-text text-transparent bg-[length:200%_200%] gradient-text-animated transition-all duration-700 delay-500 ${
+                heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+            >
               習慣を作る場所
             </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p
+            className={`text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed transition-all duration-700 delay-700 ${
+              heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+          >
             遊んでるだけなのに、考える力がつく。
             <br className="hidden sm:block" />
             探究学習ゲームプラットフォーム
           </p>
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* CTA – staggered entrance */}
+          <div
+            className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-1000 ${
+              heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+          >
             <Link
               href="/games"
-              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-trail-primary to-trail-secondary text-white rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+              className="group w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-trail-primary to-trail-secondary text-white rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all relative overflow-hidden"
             >
-              無料でゲームをプレイ &rarr;
+              {/* Shine sweep on hover */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative">無料でゲームをプレイ &rarr;</span>
             </Link>
             <Link
               href="#pricing"
-              className="w-full sm:w-auto px-8 py-4 bg-white text-trail-dark rounded-2xl font-bold text-lg shadow-md hover:shadow-lg border border-gray-200 transition-all"
+              className="w-full sm:w-auto px-8 py-4 bg-white text-trail-dark rounded-2xl font-bold text-lg shadow-md hover:shadow-lg border border-gray-200 hover:border-trail-primary/30 hover:scale-105 active:scale-95 transition-all"
             >
               料金プランを見る
             </Link>
           </div>
+
+          {/* Scroll indicator */}
+          <ScrollIndicator />
         </div>
       </section>
 
       {/* ================================================================= */}
+      {/* Marquee Ticker */}
+      {/* ================================================================= */}
+      <MarqueeTicker />
+
+      {/* ================================================================= */}
       {/* Platform Stats Section */}
       {/* ================================================================= */}
-      <section className="py-12 md:py-16 px-4 bg-white/60 backdrop-blur-sm border-y border-gray-100">
-        <div className="max-w-5xl mx-auto">
+      <section className="py-14 md:py-20 px-4 bg-white/60 backdrop-blur-sm border-b border-gray-100">
+        <div ref={statsRef} className="max-w-5xl mx-auto reveal">
           {stats && (
             <p className="text-center text-lg font-bold text-trail-primary mb-8">
               みんなで{totalHours.toLocaleString()}時間探究中!
@@ -319,9 +522,13 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Three Core Skills Section */}
       {/* ================================================================= */}
-      <section className="py-16 md:py-24 px-4">
+      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
+        {/* Section background decorations */}
+        <div className="absolute top-20 right-0 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl -z-10" />
+        <div className="absolute bottom-10 left-0 w-64 h-64 bg-purple-100/30 rounded-full blur-3xl -z-10" />
+
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+          <div ref={skillsHeadRef} className="text-center mb-14 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               TRAILで育つ<span className="text-trail-primary">三大要素</span>
             </h2>
@@ -329,24 +536,27 @@ export default function HomePage() {
               すべてのゲームは3つのスキル軸で設計されています
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div ref={skillsGridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 stagger">
             <SkillCard
               emoji="&#129504;"
               title="思考力"
               description="情報を整理し、論理的に判断する力。クイズやパズルで「なぜそうなるの？」を考え抜く体験を通じて鍛えられます。"
               color="bg-blue-100"
+              delay={0}
             />
             <SkillCard
               emoji="&#128269;"
               title="探究力"
               description="問いを立て、調べ、深掘りする力。迷路やシミュレーションで「もっと知りたい！」という好奇心を刺激します。"
               color="bg-purple-100"
+              delay={150}
             />
             <SkillCard
               emoji="&#128161;"
               title="創造力"
               description="新しいアイデアを生み出し表現する力。カードゲームやシミュレーションで「こうしたらどうなる？」を試せます。"
               color="bg-amber-100"
+              delay={300}
             />
           </div>
         </div>
@@ -355,34 +565,40 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Subject Categories Section */}
       {/* ================================================================= */}
-      <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-white to-trail-light">
+      <section className="py-20 md:py-24 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-trail-accent/5 rounded-full blur-3xl -z-10" />
+
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+          <div ref={subjectsHeadRef} className="text-center mb-14 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               教科から<span className="text-trail-secondary">探す</span>
             </h2>
             <p className="text-gray-500">興味のある教科のゲームで学ぼう</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div ref={subjectsGridRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 stagger">
             <SubjectCard
               emoji="&#129514;"
               title="理科"
               color="from-emerald-400 to-teal-500"
+              delay={0}
             />
             <SubjectCard
               emoji="&#127758;"
               title="社会"
               color="from-amber-400 to-orange-500"
+              delay={100}
             />
             <SubjectCard
               emoji="&#128290;"
               title="算数"
               color="from-blue-400 to-indigo-500"
+              delay={200}
             />
             <SubjectCard
               emoji="&#127912;"
               title="美術"
               color="from-pink-400 to-rose-500"
+              delay={300}
             />
           </div>
         </div>
@@ -391,9 +607,11 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Pricing Section */}
       {/* ================================================================= */}
-      <section id="pricing" className="py-16 md:py-24 px-4">
+      <section id="pricing" className="py-20 md:py-28 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-trail-primary/5 rounded-full blur-3xl -z-10" />
+
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
+          <div ref={pricingHeadRef} className="text-center mb-14 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               <span className="text-trail-primary">料金</span>プラン
             </h2>
@@ -401,7 +619,7 @@ export default function HomePage() {
               まずは無料プランでお試しください。いつでもアップグレードできます。
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-start">
+          <div ref={pricingGridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-start stagger">
             <PricingCard
               name="無料プラン"
               price="0円"
@@ -455,21 +673,26 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Final CTA Section */}
       {/* ================================================================= */}
-      <section className="py-16 md:py-24 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="bg-gradient-to-br from-trail-primary to-trail-secondary rounded-3xl p-10 md:p-16 text-white shadow-2xl">
-            <h2 className="text-2xl md:text-4xl font-black mb-4">
+      <section className="py-20 md:py-28 px-4">
+        <div ref={ctaRef} className="max-w-3xl mx-auto text-center reveal-scale">
+          <div className="bg-gradient-to-br from-trail-primary to-trail-secondary rounded-3xl p-10 md:p-16 text-white shadow-2xl relative overflow-hidden">
+            {/* Animated background circles */}
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/5 rounded-full animate-float-slow" />
+            <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-white/10 rounded-full animate-float" />
+
+            <h2 className="text-2xl md:text-4xl font-black mb-4 relative">
               さあ、探究の旅を始めよう
             </h2>
-            <p className="text-white/80 mb-8 max-w-md mx-auto">
+            <p className="text-white/80 mb-8 max-w-md mx-auto relative">
               会員登録不要ですぐにプレイできます。
               まずは1つゲームを遊んでみてください。
             </p>
             <Link
               href="/games"
-              className="inline-block px-10 py-4 bg-white text-trail-primary rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+              className="group inline-block px-10 py-4 bg-white text-trail-primary rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all relative overflow-hidden"
             >
-              無料でゲームをプレイ &rarr;
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-trail-primary/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative">無料でゲームをプレイ &rarr;</span>
             </Link>
           </div>
         </div>
