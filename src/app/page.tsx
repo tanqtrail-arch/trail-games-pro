@@ -418,17 +418,17 @@ export default function HomePage() {
             <PricingCard
               name="モニタープラン"
               price="0円"
-              priceLabel="/ 期間限定"
+              priceLabel="/ 2週間無料"
               features={[
                 '無料プランの全機能',
                 '全ゲームプレイ可能',
                 '詳細スキルレポート',
                 '広告非表示',
-                'フィードバック提出で特典',
-                'モニター期間終了後は有料プランへ移行',
+                '2週間の無料体験期間',
+                '体験後は有料プランへ自動移行',
               ]}
               isHighlighted
-              cta="モニターに申し込む"
+              cta="2週間無料で試す"
               ctaHref="/signup?plan=monitor"
             />
             <PricingCard
@@ -437,7 +437,7 @@ export default function HomePage() {
               priceLabel="/ 月"
               features={[
                 '無料プランの全機能',
-                '全ゲームプレイ可能',
+                '有料限定ゲームをプレイ可能',
                 '詳細スキルレポート',
                 '広告非表示',
                 '保護者ダッシュボード',
