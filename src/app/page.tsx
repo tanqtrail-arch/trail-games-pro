@@ -210,25 +210,14 @@ export default function HomePage() {
   const [stats, setStats] = useState<PlatformStats | null>(null);
 
   useEffect(() => {
-    async function fetchStats() {
-      try {
-        const res = await fetch('/api/stats');
-        if (res.ok) {
-          const data: PlatformStats = await res.json();
-          setStats(data);
-        }
-      } catch {
-        // Stats are non-critical; use fallback if API fails
-        setStats({
-          totalPlayers: 1247,
-          totalPlayTime: 184320,
-          todayPlayers: 38,
-          totalGames: 5,
-          highestLevel: 42,
-        });
-      }
-    }
-    fetchStats();
+    // デモ用モックデータ（Supabase接続後はAPIから取得に切り替え）
+    setStats({
+      totalPlayers: 1247,
+      totalPlayTime: 184320,
+      todayPlayers: 38,
+      totalGames: 5,
+      highestLevel: 42,
+    });
   }, []);
 
   const totalHours = stats ? Math.floor(stats.totalPlayTime / 3600) : 0;
