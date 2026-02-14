@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+@layer base {
+  body {
+    @apply bg-trail-light text-trail-dark font-sans;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-trail-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all shadow-lg hover:shadow-xl;
+  }
+  .btn-secondary {
+    @apply bg-trail-secondary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all;
+  }
+  .btn-accent {
+    @apply bg-trail-accent text-trail-dark px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow;
+  }
+  .card-game {
+    @apply bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer;
+  }
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  .stat-number {
+    @apply text-3xl font-black text-trail-primary;
+  }
+}
