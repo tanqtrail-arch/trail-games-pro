@@ -138,63 +138,63 @@ function AnimatedStat({
 function FloatingShapes() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* ---- Aurora mesh blobs with organic morphing ---- */}
+      {/* ---- Aurora mesh blobs ---- */}
       <div
-        className="absolute -top-20 -left-20 w-[500px] h-[400px] bg-trail-primary/15 blur-[80px] animate-aurora-morph"
+        className="absolute -top-32 -left-32 w-[600px] h-[500px] bg-trail-primary/25 blur-[100px] animate-aurora-morph"
       />
       <div
-        className="absolute -bottom-32 -right-20 w-[550px] h-[450px] bg-trail-secondary/10 blur-[90px] animate-aurora-morph"
+        className="absolute -bottom-40 -right-32 w-[650px] h-[550px] bg-trail-secondary/20 blur-[100px] animate-aurora-morph"
         style={{ animationDelay: '-5s' }}
       />
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[350px] bg-trail-accent/10 blur-[70px] animate-aurora-morph"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-trail-accent/15 blur-[80px] animate-aurora-morph"
         style={{ animationDelay: '-10s' }}
       />
 
       {/* ---- Trail-themed floating SVG shapes ---- */}
 
       {/* Compass rose */}
-      <svg className="absolute top-[12%] left-[8%] w-14 h-14 text-trail-primary/20 animate-float-drift" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="absolute top-[10%] left-[6%] w-20 h-20 text-trail-primary/40 animate-float-drift" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
-        <polygon points="12,2 14.5,9.5 12,7.5 9.5,9.5" fill="currentColor" opacity="0.5" />
-        <polygon points="12,22 14.5,14.5 12,16.5 9.5,14.5" fill="currentColor" opacity="0.3" />
+        <polygon points="12,2 14.5,9.5 12,7.5 9.5,9.5" fill="currentColor" opacity="0.6" />
+        <polygon points="12,22 14.5,14.5 12,16.5 9.5,14.5" fill="currentColor" opacity="0.4" />
         <line x1="2" y1="12" x2="6" y2="12" />
         <line x1="18" y1="12" x2="22" y2="12" />
       </svg>
 
       {/* Star / sparkle */}
-      <svg className="absolute top-[18%] right-[15%] w-8 h-8 text-trail-accent/30 animate-twinkle" style={{ animationDelay: '1s' }} viewBox="0 0 24 24" fill="currentColor">
+      <svg className="absolute top-[15%] right-[12%] w-12 h-12 text-trail-accent/50 animate-twinkle" style={{ animationDelay: '1s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
       </svg>
 
-      {/* Small leaf */}
-      <svg className="absolute bottom-[28%] left-[18%] w-12 h-12 text-trail-success/25 animate-float" style={{ animationDelay: '2s' }} viewBox="0 0 24 24" fill="currentColor">
+      {/* Leaf */}
+      <svg className="absolute bottom-[25%] left-[15%] w-16 h-16 text-trail-success/40 animate-float" style={{ animationDelay: '2s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20c4 0 8.5-3 11-8 0 0-2-2-5-2a7.81 7.81 0 00-2.5.42C13 8.55 16 5 21 3c0 0-3-1-6 1a14 14 0 00-2 4z" />
       </svg>
 
       {/* Mountain peak */}
-      <svg className="absolute top-[55%] right-[10%] w-14 h-14 text-trail-primary/15 animate-float-slow" style={{ animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+      <svg className="absolute top-[50%] right-[8%] w-20 h-20 text-trail-primary/30 animate-float-slow" style={{ animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
         <path d="M3 20L9 8l4 6 3-4 5 10H3z" />
       </svg>
 
       {/* Hollow circle / ring */}
-      <div className="absolute top-[8%] right-[32%] w-10 h-10 border-2 border-trail-primary/15 rounded-full animate-spin-slow" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute top-[6%] right-[30%] w-14 h-14 border-2 border-trail-primary/30 rounded-full animate-spin-slow" style={{ animationDelay: '1.5s' }} />
 
       {/* Diamond */}
-      <div className="absolute bottom-[18%] right-[25%] w-7 h-7 border-2 border-trail-accent/20 rotate-45 animate-float-drift" style={{ animationDelay: '3s' }} />
+      <div className="absolute bottom-[15%] right-[22%] w-10 h-10 border-2 border-trail-accent/35 rotate-45 animate-float-drift" style={{ animationDelay: '3s' }} />
 
-      {/* Small twinkle star */}
-      <svg className="absolute bottom-[40%] right-[40%] w-6 h-6 text-trail-secondary/25 animate-twinkle" style={{ animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="currentColor">
+      {/* Twinkle star */}
+      <svg className="absolute bottom-[38%] right-[38%] w-10 h-10 text-trail-secondary/40 animate-twinkle" style={{ animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
       </svg>
 
-      {/* Trail dots path – a dashed line suggesting a journey */}
-      <svg className="absolute top-[65%] left-[5%] w-64 h-32 text-trail-primary/10 animate-float-slow" style={{ animationDelay: '4s' }} viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round">
+      {/* Trail dots path */}
+      <svg className="absolute top-[60%] left-[3%] w-80 h-40 text-trail-primary/20 animate-float-slow" style={{ animationDelay: '4s' }} viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6 8" strokeLinecap="round">
         <path d="M10 80 Q50 20, 100 50 T190 30" />
       </svg>
 
-      {/* Another twinkle at a different size */}
-      <svg className="absolute top-[35%] left-[35%] w-5 h-5 text-trail-accent/25 animate-twinkle" style={{ animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
+      {/* Small twinkle */}
+      <svg className="absolute top-[32%] left-[32%] w-8 h-8 text-trail-accent/40 animate-twinkle" style={{ animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
       </svg>
     </div>
