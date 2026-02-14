@@ -126,9 +126,9 @@ const gamePerformance: GameRow[] = [
 ];
 
 const completionByCategory = [
-  { category: "理科", rate: 72, color: "#2563EB" },
-  { category: "社会", rate: 82, color: "#7C3AED" },
-  { category: "算数", rate: 48, color: "#F59E0B" },
+  { category: "理科", rate: 72, color: "#40916C" },
+  { category: "社会", rate: 82, color: "#DDA15E" },
+  { category: "算数", rate: 48, color: "#577590" },
   { category: "美術/音楽", rate: 88, color: "#10B981" },
 ];
 
@@ -163,7 +163,7 @@ const difficultyDistribution = [
       "歴史人物カードバトル",
       "水の循環アドベンチャー",
     ],
-    color: "bg-blue-500",
+    color: "bg-emerald-500",
     percent: 50,
   },
   {
@@ -195,7 +195,7 @@ const gameProposals = [
     detail:
       "保護者アンケートで「漢字ゲームが欲しい」が最多。国語分野の拡充と既存ユーザーの継続率向上が見込める。",
     priority: 88,
-    tag: "bg-purple-100 text-purple-700",
+    tag: "bg-amber-100 text-amber-700",
   },
   {
     title: "生き物観察図鑑クエスト",
@@ -203,7 +203,7 @@ const gameProposals = [
     detail:
       "理科系ゲームの高評価を活かし、図鑑コレクション要素で長期リテンションを狙う。リプレイ率60%超を目標。",
     priority: 82,
-    tag: "bg-blue-100 text-blue-700",
+    tag: "bg-green-100 text-green-700",
   },
 ];
 
@@ -228,7 +228,7 @@ function SortIcon({
 }) {
   if (!active) return <span className="text-slate-300 ml-1">&#8597;</span>;
   return (
-    <span className="text-blue-500 ml-1">
+    <span className="text-emerald-500 ml-1">
       {dir === "asc" ? "\u2191" : "\u2193"}
     </span>
   );
@@ -558,7 +558,7 @@ export default function LearningDashboard() {
                 </div>
                 <div className="w-full bg-slate-100 rounded-full h-2">
                   <div
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full"
+                    className="bg-gradient-to-r from-trail-primary to-trail-secondary h-full rounded-full"
                     style={{ width: `${proposal.priority}%` }}
                   />
                 </div>
@@ -597,7 +597,7 @@ export default function LearningDashboard() {
             <Line
               type="monotone"
               dataKey="thinking"
-              stroke="#2563EB"
+              stroke="#40916C"
               strokeWidth={2}
               name="思考力"
               dot={{ r: 4 }}
@@ -605,7 +605,7 @@ export default function LearningDashboard() {
             <Line
               type="monotone"
               dataKey="inquiry"
-              stroke="#7C3AED"
+              stroke="#DDA15E"
               strokeWidth={2}
               name="探究力"
               dot={{ r: 4 }}
@@ -613,7 +613,7 @@ export default function LearningDashboard() {
             <Line
               type="monotone"
               dataKey="creativity"
-              stroke="#F59E0B"
+              stroke="#577590"
               strokeWidth={2}
               name="創造力"
               dot={{ r: 4 }}

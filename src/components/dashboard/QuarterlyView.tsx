@@ -64,7 +64,7 @@ const suggestions = [
     title: "博物館の科学展に行ってみましょう",
     description:
       "理科分野のスコアが非常に高く、実物に触れることでさらに探究心が深まります。国立科学博物館の特別展がおすすめです。",
-    color: "from-trail-primary to-blue-500",
+    color: "from-trail-primary to-emerald-500",
   },
   {
     icon: "📐",
@@ -78,7 +78,7 @@ const suggestions = [
     title: "アート系の体験教室に参加",
     description:
       "創造力の伸びしろが大きいです。絵画教室やものづくりワークショップに参加すると、「自分で作る喜び」が創造力スコアの飛躍につながります。",
-    color: "from-trail-secondary to-purple-500",
+    color: "from-trail-secondary to-amber-500",
   },
 ];
 
@@ -124,7 +124,7 @@ export default function QuarterlyView() {
             <Line
               type="monotone"
               dataKey="思考力"
-              stroke="#2563EB"
+              stroke="#40916C"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -132,7 +132,7 @@ export default function QuarterlyView() {
             <Line
               type="monotone"
               dataKey="探究力"
-              stroke="#7C3AED"
+              stroke="#DDA15E"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -140,7 +140,7 @@ export default function QuarterlyView() {
             <Line
               type="monotone"
               dataKey="創造力"
-              stroke="#F59E0B"
+              stroke="#577590"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -150,12 +150,12 @@ export default function QuarterlyView() {
       </section>
 
       {/* ---- 探究傾向分析 ---- */}
-      <section className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100 p-5 sm:p-6">
+      <section className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-5 sm:p-6">
         <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">
           探究傾向分析
         </h3>
         <div className="flex flex-col sm:flex-row items-center gap-6">
-          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-trail-secondary to-indigo-500 flex items-center justify-center shadow-lg">
+          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-trail-secondary to-amber-600 flex items-center justify-center shadow-lg">
             <span className="text-4xl">🔬</span>
           </div>
           <div>
@@ -203,8 +203,8 @@ export default function QuarterlyView() {
               <Radar
                 name="スコア"
                 dataKey="value"
-                stroke="#7C3AED"
-                fill="#7C3AED"
+                stroke="#DDA15E"
+                fill="#DDA15E"
                 fillOpacity={0.2}
                 strokeWidth={2.5}
               />
@@ -241,7 +241,7 @@ export default function QuarterlyView() {
               <Bar
                 dataKey="child"
                 name="ゆうたくん"
-                fill="#2563EB"
+                fill="#40916C"
                 radius={[6, 6, 0, 0]}
                 barSize={20}
               />
@@ -255,7 +255,7 @@ export default function QuarterlyView() {
             </BarChart>
           </ResponsiveContainer>
           <div className="mt-4 text-center">
-            <span className="inline-block px-4 py-2 rounded-full bg-blue-50 text-trail-primary text-sm font-bold">
+            <span className="inline-block px-4 py-2 rounded-full bg-green-50 text-trail-primary text-sm font-bold">
               探究マップの広さ TOP 20%
             </span>
           </div>
@@ -263,7 +263,7 @@ export default function QuarterlyView() {
       </section>
 
       {/* ---- AI総合コメント ---- */}
-      <section className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-5 sm:p-6">
+      <section className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100 p-5 sm:p-6">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-sm font-black shadow">
             AI

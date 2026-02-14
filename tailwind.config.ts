@@ -10,13 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         trail: {
-          primary: "#2563EB",
-          secondary: "#7C3AED",
-          accent: "#F59E0B",
-          success: "#10B981",
-          danger: "#EF4444",
-          dark: "#1E293B",
-          light: "#F8FAFC",
+          primary: "#40916C",
+          secondary: "#DDA15E",
+          accent: "#577590",
+          success: "#52B788",
+          danger: "#BC4749",
+          dark: "#2D3A2D",
+          light: "#FEFDF6",
         },
       },
       fontFamily: {
