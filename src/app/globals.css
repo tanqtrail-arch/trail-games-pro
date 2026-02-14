@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
 
 @layer base {
   body {
@@ -115,4 +115,111 @@
 /* Smooth scroll for the whole page */
 html {
   scroll-behavior: smooth;
+}
+
+/* ====================================================================== */
+/* Noise / grain texture overlay – adds tactile depth to backgrounds      */
+/* ====================================================================== */
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ====================================================================== */
+/* Subtle dot-grid pattern – adds sophistication to flat sections         */
+/* ====================================================================== */
+.dot-grid-bg {
+  background-image: radial-gradient(circle, rgba(37, 99, 235, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ====================================================================== */
+/* Glass-morphism card variant                                            */
+/* ====================================================================== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* ====================================================================== */
+/* Aurora mesh gradient base – hero section                               */
+/* Uses multiple radial gradients placed asymmetrically                   */
+/* ====================================================================== */
+.aurora-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 15%, rgba(124, 58, 237, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 75% 60%, rgba(37, 99, 235, 0.05) 0%, transparent 45%);
+}
+
+/* ====================================================================== */
+/* Section divider – soft wave shape using clip-path                      */
+/* ====================================================================== */
+.section-wave-divider {
+  position: relative;
+}
+.section-wave-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: inherit;
+  clip-path: ellipse(55% 100% at 50% 100%);
+  z-index: 1;
+}
+
+/* ====================================================================== */
+/* Trail path decoration – a dashed SVG path that fades out               */
+/* ====================================================================== */
+.trail-path-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.trail-path-decoration svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.06;
+}
+
+/* ====================================================================== */
+/* Shimmer / shine sweep on hover – reusable                              */
+/* ====================================================================== */
+.shimmer-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 45%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.15) 55%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.shimmer-hover:hover::after {
+  transform: translateX(100%);
 }

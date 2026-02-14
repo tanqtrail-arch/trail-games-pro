@@ -149,15 +149,15 @@ function TripleRadarChart({
       ))}
       <polygon
         points={dataPoints.join(' ')}
-        fill="rgba(64, 145, 108, 0.15)"
-        stroke="#40916C"
+        fill="rgba(37, 99, 235, 0.15)"
+        stroke="#2563EB"
         strokeWidth="2"
       />
       {skills.map((val, i) => {
         const ratio = Math.min(val / maxValue, 1);
         const x = cx + r * ratio * Math.cos(angles[i]);
         const y = cy + r * ratio * Math.sin(angles[i]);
-        return <circle key={i} cx={x} cy={y} r="3.5" fill="#40916C" />;
+        return <circle key={i} cx={x} cy={y} r="3.5" fill="#2563EB" />;
       })}
       {labels.map((label, i) => {
         const labelR = r + 22;
@@ -237,15 +237,15 @@ function QuadRadarChart({
       ))}
       <polygon
         points={dataPoints.join(' ')}
-        fill="rgba(221, 161, 94, 0.15)"
-        stroke="#DDA15E"
+        fill="rgba(124, 58, 237, 0.15)"
+        stroke="#7C3AED"
         strokeWidth="2"
       />
       {skills.map((val, i) => {
         const ratio = Math.min(val / maxValue, 1);
         const x = cx + r * ratio * Math.cos(angles[i]);
         const y = cy + r * ratio * Math.sin(angles[i]);
-        return <circle key={i} cx={x} cy={y} r="3.5" fill="#DDA15E" />;
+        return <circle key={i} cx={x} cy={y} r="3.5" fill="#7C3AED" />;
       })}
       {labels.map((label, i) => {
         const labelR = r + 22;

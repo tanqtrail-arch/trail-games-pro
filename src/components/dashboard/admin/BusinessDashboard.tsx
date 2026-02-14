@@ -51,7 +51,7 @@ const channelData = [
   { name: "リファラル", value: 15 },
 ];
 
-const CHANNEL_COLORS = ["#40916C", "#DDA15E", "#577590", "#52B788"];
+const CHANNEL_COLORS = ["#2563EB", "#7C3AED", "#F59E0B", "#10B981"];
 
 const funnelStages = [
   { label: "PV (月間)", value: 120000, percentage: 100 },
@@ -204,13 +204,13 @@ export default function BusinessDashboard() {
           <span className="text-sm font-medium text-slate-600">
             有料会員 目標進捗
           </span>
-          <span className="text-sm font-bold text-amber-600">
+          <span className="text-sm font-bold text-purple-600">
             {paidMembers.toLocaleString()} / {paidGoal.toLocaleString()}
           </span>
         </div>
         <div className="w-full bg-slate-100 rounded-full h-4 overflow-hidden">
           <div
-            className="bg-gradient-to-r from-trail-primary to-emerald-500 h-full rounded-full transition-all duration-700"
+            className="bg-gradient-to-r from-purple-500 to-blue-500 h-full rounded-full transition-all duration-700"
             style={{
               width: `${Math.min((paidMembers / paidGoal) * 100, 100)}%`,
             }}
@@ -261,7 +261,7 @@ export default function BusinessDashboard() {
                 yAxisId="left"
                 type="monotone"
                 dataKey="new"
-                stroke="#40916C"
+                stroke="#2563EB"
                 strokeWidth={2}
                 name="新規登録"
                 dot={{ r: 3 }}
@@ -270,7 +270,7 @@ export default function BusinessDashboard() {
                 yAxisId="right"
                 type="monotone"
                 dataKey="cumulative"
-                stroke="#DDA15E"
+                stroke="#7C3AED"
                 strokeWidth={2}
                 name="累計"
                 dot={{ r: 3 }}

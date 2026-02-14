@@ -56,7 +56,7 @@ const highlights = [
     icon: "🌟",
     game: "色彩アートチャレンジ",
     detail: "初めてプレイしました！",
-    color: "from-amber-400 to-orange-500",
+    color: "from-purple-400 to-violet-500",
   },
   {
     label: "前回より伸びたゲーム",
@@ -103,7 +103,7 @@ export default function DailyView() {
                 ? "bg-gradient-to-r from-red-400 to-red-500"
                 : progressPercent >= 70
                 ? "bg-gradient-to-r from-amber-400 to-orange-400"
-                : "bg-gradient-to-r from-trail-primary to-emerald-400"
+                : "bg-gradient-to-r from-trail-primary to-blue-400"
             }`}
             style={{ width: `${progressPercent}%` }}
           />
@@ -155,7 +155,7 @@ export default function DailyView() {
             {playLog.map((entry, idx) => (
               <li key={entry.id} className="relative flex gap-4 items-start">
                 {/* dot */}
-                <div className="relative z-10 flex-shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-trail-primary to-emerald-400 flex items-center justify-center text-white text-xs font-bold shadow">
+                <div className="relative z-10 flex-shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-trail-primary to-blue-400 flex items-center justify-center text-white text-xs font-bold shadow">
                   {idx + 1}
                 </div>
                 {/* content */}
@@ -195,7 +195,7 @@ export default function DailyView() {
       </section>
 
       {/* ---- 今日の探究メモ (AI Comment) ---- */}
-      <section className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100 p-5 sm:p-6">
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-5 sm:p-6">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-sm font-black shadow">
             AI

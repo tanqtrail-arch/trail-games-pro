@@ -138,18 +138,65 @@ function AnimatedStat({
 function FloatingShapes() {
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden>
-      {/* Large blurred blobs */}
-      <div className="absolute top-10 left-10 w-72 h-72 bg-trail-primary/10 rounded-full blur-3xl animate-float-slow" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-trail-secondary/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-trail-accent/5 rounded-full blur-3xl animate-float-slow" />
+      {/* ---- Aurora mesh blobs with organic morphing ---- */}
+      <div
+        className="absolute -top-20 -left-20 w-[500px] h-[400px] bg-trail-primary/12 blur-[80px] animate-aurora-morph"
+      />
+      <div
+        className="absolute -bottom-32 -right-20 w-[550px] h-[450px] bg-trail-secondary/10 blur-[90px] animate-aurora-morph"
+        style={{ animationDelay: '-5s' }}
+      />
+      <div
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[350px] bg-trail-accent/6 blur-[70px] animate-aurora-morph"
+        style={{ animationDelay: '-10s' }}
+      />
 
-      {/* Small floating geometric shapes */}
-      <div className="absolute top-[15%] left-[12%] w-4 h-4 bg-trail-primary/30 rounded-full animate-float" style={{ animationDelay: '0s' }} />
-      <div className="absolute top-[25%] right-[18%] w-3 h-3 bg-trail-secondary/40 rounded animate-float" style={{ animationDelay: '1s' }} />
-      <div className="absolute bottom-[30%] left-[20%] w-5 h-5 bg-trail-accent/30 rounded-lg rotate-45 animate-float" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-[60%] right-[12%] w-3 h-3 bg-trail-success/30 rounded-full animate-float-slow" style={{ animationDelay: '0.5s' }} />
-      <div className="absolute top-[10%] right-[35%] w-6 h-6 border-2 border-trail-primary/20 rounded-full animate-float" style={{ animationDelay: '1.5s' }} />
-      <div className="absolute bottom-[15%] right-[30%] w-4 h-4 border-2 border-trail-accent/20 rounded rotate-45 animate-float-slow" style={{ animationDelay: '3s' }} />
+      {/* ---- Trail-themed floating SVG shapes ---- */}
+
+      {/* Compass rose */}
+      <svg className="absolute top-[12%] left-[8%] w-10 h-10 text-trail-primary/15 animate-float-drift" style={{ animationDelay: '0s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="12,2 14.5,9.5 12,7.5 9.5,9.5" fill="currentColor" opacity="0.5" />
+        <polygon points="12,22 14.5,14.5 12,16.5 9.5,14.5" fill="currentColor" opacity="0.3" />
+        <line x1="2" y1="12" x2="6" y2="12" />
+        <line x1="18" y1="12" x2="22" y2="12" />
+      </svg>
+
+      {/* Star / sparkle */}
+      <svg className="absolute top-[18%] right-[15%] w-6 h-6 text-trail-accent/25 animate-twinkle" style={{ animationDelay: '1s' }} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
+      </svg>
+
+      {/* Small leaf */}
+      <svg className="absolute bottom-[28%] left-[18%] w-8 h-8 text-trail-success/20 animate-float" style={{ animationDelay: '2s' }} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20c4 0 8.5-3 11-8 0 0-2-2-5-2a7.81 7.81 0 00-2.5.42C13 8.55 16 5 21 3c0 0-3-1-6 1a14 14 0 00-2 4z" />
+      </svg>
+
+      {/* Mountain peak */}
+      <svg className="absolute top-[55%] right-[10%] w-9 h-9 text-trail-primary/12 animate-float-slow" style={{ animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+        <path d="M3 20L9 8l4 6 3-4 5 10H3z" />
+      </svg>
+
+      {/* Hollow circle / ring */}
+      <div className="absolute top-[8%] right-[32%] w-8 h-8 border-2 border-trail-primary/12 rounded-full animate-float-drift animate-spin-slow" style={{ animationDelay: '1.5s' }} />
+
+      {/* Diamond */}
+      <div className="absolute bottom-[18%] right-[25%] w-5 h-5 border-[1.5px] border-trail-accent/15 rotate-45 animate-float-drift" style={{ animationDelay: '3s' }} />
+
+      {/* Small twinkle star */}
+      <svg className="absolute bottom-[40%] right-[40%] w-4 h-4 text-trail-secondary/20 animate-twinkle" style={{ animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
+      </svg>
+
+      {/* Trail dots path – a dashed line suggesting a journey */}
+      <svg className="absolute top-[65%] left-[5%] w-48 h-24 text-trail-primary/8 animate-float-slow" style={{ animationDelay: '4s' }} viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round">
+        <path d="M10 80 Q50 20, 100 50 T190 30" />
+      </svg>
+
+      {/* Another twinkle at a different size */}
+      <svg className="absolute top-[35%] left-[35%] w-3 h-3 text-trail-accent/20 animate-twinkle" style={{ animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
+      </svg>
     </div>
   );
 }
@@ -189,7 +236,7 @@ function SkillCard({
 }) {
   return (
     <div
-      className="card card-tilt group text-center"
+      className="card glass-card card-tilt group text-center"
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div
@@ -400,7 +447,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Hero Section */}
       {/* ================================================================= */}
-      <section className="relative py-20 md:py-32 px-4 overflow-hidden min-h-[90vh] flex items-center">
+      <section className="relative py-20 md:py-32 px-4 overflow-hidden min-h-[90vh] flex items-center aurora-bg noise-overlay">
+        {/* Dot grid texture for depth */}
+        <div className="absolute inset-0 dot-grid-bg pointer-events-none" aria-hidden />
         {/* Parallax floating background */}
         <div ref={parallaxRef} className="parallax-bg">
           <FloatingShapes />
@@ -482,7 +531,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Platform Stats Section */}
       {/* ================================================================= */}
-      <section className="py-14 md:py-20 px-4 bg-white/60 backdrop-blur-sm border-b border-gray-100">
+      <section className="py-14 md:py-20 px-4 bg-white/60 backdrop-blur-sm border-b border-gray-100 relative noise-overlay">
         <div ref={statsRef} className="max-w-5xl mx-auto reveal">
           {stats && (
             <p className="text-center text-lg font-bold text-trail-primary mb-8">
@@ -522,10 +571,12 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Three Core Skills Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
-        {/* Section background decorations */}
-        <div className="absolute top-20 right-0 w-72 h-72 bg-green-100/40 rounded-full blur-3xl -z-10" />
-        <div className="absolute bottom-10 left-0 w-64 h-64 bg-amber-100/30 rounded-full blur-3xl -z-10" />
+      <section className="py-20 md:py-28 px-4 relative overflow-hidden noise-overlay">
+        {/* Dot grid subtle texture */}
+        <div className="absolute inset-0 dot-grid-bg pointer-events-none -z-10" aria-hidden />
+        {/* Section background decorations – organic morphing blobs */}
+        <div className="absolute top-20 right-0 w-72 h-72 bg-blue-100/40 blur-[80px] -z-10 animate-aurora-morph" />
+        <div className="absolute bottom-10 left-0 w-64 h-64 bg-purple-100/30 blur-[80px] -z-10 animate-aurora-morph" style={{ animationDelay: '-7s' }} />
 
         <div className="max-w-5xl mx-auto">
           <div ref={skillsHeadRef} className="text-center mb-14 reveal">
@@ -541,21 +592,21 @@ export default function HomePage() {
               emoji="&#129504;"
               title="思考力"
               description="情報を整理し、論理的に判断する力。クイズやパズルで「なぜそうなるの？」を考え抜く体験を通じて鍛えられます。"
-              color="bg-green-100"
+              color="bg-blue-100"
               delay={0}
             />
             <SkillCard
               emoji="&#128269;"
               title="探究力"
               description="問いを立て、調べ、深掘りする力。迷路やシミュレーションで「もっと知りたい！」という好奇心を刺激します。"
-              color="bg-amber-100"
+              color="bg-purple-100"
               delay={150}
             />
             <SkillCard
               emoji="&#128161;"
               title="創造力"
               description="新しいアイデアを生み出し表現する力。カードゲームやシミュレーションで「こうしたらどうなる？」を試せます。"
-              color="bg-sky-100"
+              color="bg-amber-100"
               delay={300}
             />
           </div>
@@ -565,8 +616,14 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Subject Categories Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-24 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-trail-accent/5 rounded-full blur-3xl -z-10" />
+      <section className="py-20 md:py-24 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden noise-overlay">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-trail-accent/5 blur-[100px] -z-10 animate-aurora-morph" style={{ animationDelay: '-3s' }} />
+        {/* Decorative trail path */}
+        <div className="trail-path-decoration -z-10" aria-hidden>
+          <svg viewBox="0 0 1200 500" fill="none" stroke="currentColor" className="text-trail-primary" strokeWidth="2" strokeDasharray="8 12" strokeLinecap="round">
+            <path d="M-50 400 Q200 100, 500 300 T1000 150 T1300 250" />
+          </svg>
+        </div>
 
         <div className="max-w-5xl mx-auto">
           <div ref={subjectsHeadRef} className="text-center mb-14 reveal">
@@ -607,8 +664,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Pricing Section */}
       {/* ================================================================= */}
-      <section id="pricing" className="py-20 md:py-28 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-trail-primary/5 rounded-full blur-3xl -z-10" />
+      <section id="pricing" className="py-20 md:py-28 px-4 relative overflow-hidden noise-overlay dot-grid-bg">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-trail-primary/5 blur-[100px] -z-10 animate-aurora-morph" style={{ animationDelay: '-8s' }} />
+        <div className="absolute bottom-20 left-10 w-72 h-72 bg-trail-secondary/4 blur-[90px] -z-10 animate-aurora-morph" style={{ animationDelay: '-12s' }} />
 
         <div className="max-w-5xl mx-auto">
           <div ref={pricingHeadRef} className="text-center mb-14 reveal">
@@ -673,12 +731,14 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Final CTA Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4">
+      <section className="py-20 md:py-28 px-4 relative noise-overlay">
         <div ref={ctaRef} className="max-w-3xl mx-auto text-center reveal-scale">
           <div className="bg-gradient-to-br from-trail-primary to-trail-secondary rounded-3xl p-10 md:p-16 text-white shadow-2xl relative overflow-hidden">
-            {/* Animated background circles */}
-            <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/5 rounded-full animate-float-slow" />
-            <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-white/10 rounded-full animate-float" />
+            {/* Animated background circles with organic morph */}
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/5 animate-aurora-morph" />
+            <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-white/10 animate-aurora-morph" style={{ animationDelay: '-5s' }} />
+            {/* Subtle dot pattern overlay inside CTA card */}
+            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
 
             <h2 className="text-2xl md:text-4xl font-black mb-4 relative">
               さあ、探究の旅を始めよう

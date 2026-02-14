@@ -62,15 +62,15 @@ function SkillRadarChart({
       ))}
       <polygon
         points={dataPoints.join(' ')}
-        fill="rgba(64, 145, 108, 0.2)"
-        stroke="#40916C"
+        fill="rgba(37, 99, 235, 0.2)"
+        stroke="#2563EB"
         strokeWidth="2"
       />
       {values.map((val, i) => {
         const ratio = val / max;
         const x = cx + r * ratio * Math.cos(angles[i]);
         const y = cy + r * ratio * Math.sin(angles[i]);
-        return <circle key={i} cx={x} cy={y} r="4" fill="#40916C" />;
+        return <circle key={i} cx={x} cy={y} r="4" fill="#2563EB" />;
       })}
       {labels.map((label, i) => {
         const labelR = r + 20;

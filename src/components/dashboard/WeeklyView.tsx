@@ -61,14 +61,14 @@ const recommendations = [
     type: "得意を伸ばす",
     game: "歴史探偵ゲーム",
     reason: "歴史分野をさらに極めよう",
-    color: "from-trail-primary to-emerald-500",
+    color: "from-trail-primary to-blue-500",
     icon: "🚀",
   },
   {
     type: "新ジャンル挑戦",
     game: "音楽リズムラボ",
     reason: "まだ試していないジャンルに挑戦！",
-    color: "from-trail-secondary to-amber-500",
+    color: "from-trail-secondary to-purple-500",
     icon: "🌈",
   },
 ];
@@ -138,8 +138,8 @@ export default function WeeklyView() {
               <Radar
                 name="今週"
                 dataKey="thisWeek"
-                stroke="#40916C"
-                fill="#40916C"
+                stroke="#2563EB"
+                fill="#2563EB"
                 fillOpacity={0.25}
                 strokeWidth={2.5}
               />
@@ -180,9 +180,9 @@ export default function WeeklyView() {
               <Line
                 type="monotone"
                 dataKey="score"
-                stroke="#40916C"
+                stroke="#2563EB"
                 strokeWidth={3}
-                dot={{ r: 5, fill: "#40916C", stroke: "#fff", strokeWidth: 2 }}
+                dot={{ r: 5, fill: "#2563EB", stroke: "#fff", strokeWidth: 2 }}
                 activeDot={{ r: 7 }}
               />
             </LineChart>
@@ -259,7 +259,7 @@ export default function WeeklyView() {
       </section>
 
       {/* ---- AIコメント ---- */}
-      <section className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border border-green-100 p-5 sm:p-6">
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-5 sm:p-6">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-sm font-black shadow">
             AI
