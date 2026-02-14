@@ -60,7 +60,7 @@ const bestGames = [
     icon: "🔁",
     game: "論理パズル王",
     detail: "12回プレイ",
-    color: "from-trail-primary to-blue-500",
+    color: "from-trail-primary to-emerald-500",
   },
   {
     award: "最大成長",
@@ -110,7 +110,7 @@ export default function MonthlyView() {
             <Line
               type="monotone"
               dataKey="思考力"
-              stroke="#2563EB"
+              stroke="#2D6A4F"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -118,7 +118,7 @@ export default function MonthlyView() {
             <Line
               type="monotone"
               dataKey="探究力"
-              stroke="#7C3AED"
+              stroke="#E9C46A"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -126,7 +126,7 @@ export default function MonthlyView() {
             <Line
               type="monotone"
               dataKey="創造力"
-              stroke="#F59E0B"
+              stroke="#7FB3D3"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}

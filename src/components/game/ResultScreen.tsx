@@ -102,8 +102,8 @@ function RadarChart({
               ? dataPoints.map((p) => `${p.x},${p.y}`).join(" ")
               : `${cx},${cy} ${cx},${cy} ${cx},${cy}`
           }
-          fill="rgba(99, 102, 241, 0.2)"
-          stroke="#6366f1"
+          fill="rgba(45, 106, 79, 0.2)"
+          stroke="#2D6A4F"
           strokeWidth="2.5"
           className="transition-all duration-700 ease-out"
         />
@@ -115,7 +115,7 @@ function RadarChart({
             cx={animated ? p.x : cx}
             cy={animated ? p.y : cy}
             r="4"
-            fill="#6366f1"
+            fill="#2D6A4F"
             stroke="white"
             strokeWidth="2"
             className="transition-all duration-700 ease-out"
@@ -145,7 +145,7 @@ function RadarChart({
             y={animated ? p.y - 12 : cy - 12}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-xs font-bold fill-indigo-600 transition-all duration-700 ease-out"
+            className="text-xs font-bold fill-teal-600 transition-all duration-700 ease-out"
             fontSize="10"
           >
             {values[i]}
@@ -225,8 +225,8 @@ function ScoreDisplay({
   switch (config.type) {
     case "rank": {
       const defaultRanks = [
-        { threshold: 90, label: "S", color: "#F59E0B" },
-        { threshold: 80, label: "A", color: "#10B981" },
+        { threshold: 90, label: "S", color: "#7FB3D3" },
+        { threshold: 80, label: "A", color: "#52B788" },
         { threshold: 60, label: "B", color: "#3B82F6" },
         { threshold: 40, label: "C", color: "#8B5CF6" },
         { threshold: 0, label: "D", color: "#6B7280" },
@@ -298,9 +298,9 @@ function Confetti() {
       delay: `${Math.random() * 2}s`,
       duration: `${2 + Math.random() * 3}s`,
       color: [
-        "#F59E0B",
+        "#7FB3D3",
         "#EF4444",
-        "#10B981",
+        "#52B788",
         "#3B82F6",
         "#8B5CF6",
         "#EC4899",
@@ -378,7 +378,7 @@ export default function ResultScreen({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-amber-50 relative">
+    <div className="min-h-screen bg-gradient-to-b from-teal-50 via-white to-amber-50 relative">
       {/* Confetti for high scores */}
       {isHighScore && <Confetti />}
 
@@ -559,7 +559,7 @@ export default function ResultScreen({
               <div className="relative overflow-hidden rounded-lg">
                 <div className="blur-sm select-none pointer-events-none">
                   <div className="flex gap-3">
-                    <div className="w-12 h-12 bg-indigo-100 rounded-lg flex-shrink-0" />
+                    <div className="w-12 h-12 bg-teal-100 rounded-lg flex-shrink-0" />
                     <div>
                       <p className="text-sm font-bold text-gray-700">
                         もっと難しいクイズ

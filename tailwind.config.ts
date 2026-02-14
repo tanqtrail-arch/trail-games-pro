@@ -10,13 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         trail: {
-          primary: "#2563EB",
-          secondary: "#7C3AED",
-          accent: "#F59E0B",
-          success: "#10B981",
-          danger: "#EF4444",
-          dark: "#1E293B",
-          light: "#F8FAFC",
+          primary: "#2D6A4F",   // 深い森の緑 — メインカラー
+          secondary: "#E9C46A", // 木漏れ日ゴールド — アクセント・CTA
+          accent: "#7FB3D3",    // 冒険の空色 — 補助・ハイライト
+          success: "#52B788",   // 若葉グリーン — 成功・成長
+          danger: "#E76F51",    // 焚き火オレンジ — 警告・注意
+          dark: "#1B4332",      // 深い森の夜 — テキスト
+          light: "#F5F7F2",     // 朝もやのホワイト — 背景
         },
       },
       fontFamily: {

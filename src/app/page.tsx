@@ -575,8 +575,8 @@ export default function HomePage() {
         {/* Dot grid subtle texture */}
         <div className="absolute inset-0 dot-grid-bg pointer-events-none -z-10" aria-hidden />
         {/* Section background decorations – organic morphing blobs */}
-        <div className="absolute top-20 right-0 w-72 h-72 bg-blue-100/40 blur-[80px] -z-10 animate-aurora-morph" />
-        <div className="absolute bottom-10 left-0 w-64 h-64 bg-purple-100/30 blur-[80px] -z-10 animate-aurora-morph" style={{ animationDelay: '-7s' }} />
+        <div className="absolute top-20 right-0 w-72 h-72 bg-emerald-100/40 blur-[80px] -z-10 animate-aurora-morph" />
+        <div className="absolute bottom-10 left-0 w-64 h-64 bg-amber-100/30 blur-[80px] -z-10 animate-aurora-morph" style={{ animationDelay: '-7s' }} />
 
         <div className="max-w-5xl mx-auto">
           <div ref={skillsHeadRef} className="text-center mb-14 reveal">
@@ -592,21 +592,21 @@ export default function HomePage() {
               emoji="&#129504;"
               title="思考力"
               description="情報を整理し、論理的に判断する力。クイズやパズルで「なぜそうなるの？」を考え抜く体験を通じて鍛えられます。"
-              color="bg-blue-100"
+              color="bg-emerald-100"
               delay={0}
             />
             <SkillCard
               emoji="&#128269;"
               title="探究力"
               description="問いを立て、調べ、深掘りする力。迷路やシミュレーションで「もっと知りたい！」という好奇心を刺激します。"
-              color="bg-purple-100"
+              color="bg-amber-100"
               delay={150}
             />
             <SkillCard
               emoji="&#128161;"
               title="創造力"
               description="新しいアイデアを生み出し表現する力。カードゲームやシミュレーションで「こうしたらどうなる？」を試せます。"
-              color="bg-amber-100"
+              color="bg-sky-100"
               delay={300}
             />
           </div>
@@ -648,7 +648,7 @@ export default function HomePage() {
             <SubjectCard
               emoji="&#128290;"
               title="算数"
-              color="from-blue-400 to-indigo-500"
+              color="from-emerald-600 to-teal-600"
               delay={200}
             />
             <SubjectCard

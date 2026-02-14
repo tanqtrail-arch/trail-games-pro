@@ -136,7 +136,7 @@ html {
 /* Subtle dot-grid pattern – adds sophistication to flat sections         */
 /* ====================================================================== */
 .dot-grid-bg {
-  background-image: radial-gradient(circle, rgba(37, 99, 235, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(45, 106, 79, 0.10) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -157,10 +157,10 @@ html {
 /* ====================================================================== */
 .aurora-bg {
   background:
-    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(37, 99, 235, 0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 85% 15%, rgba(124, 58, 237, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 75% 60%, rgba(37, 99, 235, 0.10) 0%, transparent 45%);
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(45, 106, 79, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 85% 15%, rgba(233, 196, 106, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(127, 179, 211, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 75% 60%, rgba(82, 183, 136, 0.10) 0%, transparent 45%);
 }
 
 /* ====================================================================== */

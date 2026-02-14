@@ -197,7 +197,7 @@ function MatchingMode({
       : "grid-cols-4 sm:grid-cols-6";
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-50 to-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 to-white">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-gray-100 px-4 py-3">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
@@ -415,8 +415,8 @@ function BattleMode({
           <div className="w-full text-center">
             <div className="flex items-center justify-center gap-4 mb-6">
               {/* Player card */}
-              <div className="w-32 h-44 bg-blue-100 rounded-xl border-2 border-blue-300 flex flex-col items-center justify-center p-3 shadow-lg">
-                <p className="text-xs text-blue-500 mb-1">あなた</p>
+              <div className="w-32 h-44 bg-emerald-100 rounded-xl border-2 border-emerald-300 flex flex-col items-center justify-center p-3 shadow-lg">
+                <p className="text-xs text-emerald-500 mb-1">あなた</p>
                 <p className="text-sm font-bold text-trail-dark mb-2">
                   {playerCard.front}
                 </p>

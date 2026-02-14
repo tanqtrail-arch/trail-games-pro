@@ -136,9 +136,9 @@ export default function PuzzleGame({ gameConfig, onFinish }: PuzzleGameProps) {
     sequence: {
       label: "数列パズル",
       icon: "🔢",
-      bgGradient: "from-indigo-50",
-      accentColor: "indigo",
-      headerBg: "from-indigo-500 to-indigo-600",
+      bgGradient: "from-teal-50",
+      accentColor: "teal",
+      headerBg: "from-teal-500 to-teal-600",
     },
     logic: {
       label: "論理パズル",
@@ -376,8 +376,8 @@ export default function PuzzleGame({ gameConfig, onFinish }: PuzzleGameProps) {
 
             {/* Show the correct answer explanation for wrong answers */}
             {answerState === "incorrect" && (
-              <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
-                <p className="text-sm text-blue-700">
+              <div className="bg-emerald-50 rounded-xl p-4 mb-4 border border-emerald-100">
+                <p className="text-sm text-emerald-700">
                   正解は{" "}
                   <span className="font-bold">
                     {optionLabels[currentPuzzle.correctIndex]}:{" "}

@@ -173,16 +173,16 @@ export default function QuizGame({ gameConfig, onFinish }: QuizGameProps) {
   }, [currentIndex, totalQuestions, correctCount, details, onFinish, answerState]);
 
   const choiceColors = [
-    "from-blue-500 to-blue-600",
+    "from-emerald-500 to-emerald-600",
     "from-green-500 to-green-600",
     "from-amber-500 to-amber-600",
-    "from-purple-500 to-purple-600",
+    "from-amber-500 to-amber-600",
   ];
 
   const choiceLabels = ["A", "B", "C", "D", "E", "F"];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white flex flex-col">
       {/* Top bar: progress + timer */}
       <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-gray-100 px-4 py-3">
         <div className="max-w-2xl mx-auto">
@@ -336,9 +336,9 @@ export default function QuizGame({ gameConfig, onFinish }: QuizGameProps) {
 
             {/* Explanation */}
             {showExplanation && currentQuestion.explanation && (
-              <div className="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-100">
-                <p className="text-sm font-bold text-blue-700 mb-1">解説</p>
-                <p className="text-sm text-blue-800 leading-relaxed">
+              <div className="bg-emerald-50 rounded-xl p-4 mb-6 border border-emerald-100">
+                <p className="text-sm font-bold text-emerald-700 mb-1">解説</p>
+                <p className="text-sm text-emerald-800 leading-relaxed">
                   {currentQuestion.explanation}
                 </p>
               </div>

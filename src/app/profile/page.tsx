@@ -149,15 +149,15 @@ function TripleRadarChart({
       ))}
       <polygon
         points={dataPoints.join(' ')}
-        fill="rgba(37, 99, 235, 0.15)"
-        stroke="#2563EB"
+        fill="rgba(45, 106, 79, 0.15)"
+        stroke="#2D6A4F"
         strokeWidth="2"
       />
       {skills.map((val, i) => {
         const ratio = Math.min(val / maxValue, 1);
         const x = cx + r * ratio * Math.cos(angles[i]);
         const y = cy + r * ratio * Math.sin(angles[i]);
-        return <circle key={i} cx={x} cy={y} r="3.5" fill="#2563EB" />;
+        return <circle key={i} cx={x} cy={y} r="3.5" fill="#2D6A4F" />;
       })}
       {labels.map((label, i) => {
         const labelR = r + 22;
@@ -237,15 +237,15 @@ function QuadRadarChart({
       ))}
       <polygon
         points={dataPoints.join(' ')}
-        fill="rgba(124, 58, 237, 0.15)"
-        stroke="#7C3AED"
+        fill="rgba(233, 196, 106, 0.15)"
+        stroke="#E9C46A"
         strokeWidth="2"
       />
       {skills.map((val, i) => {
         const ratio = Math.min(val / maxValue, 1);
         const x = cx + r * ratio * Math.cos(angles[i]);
         const y = cy + r * ratio * Math.sin(angles[i]);
-        return <circle key={i} cx={x} cy={y} r="3.5" fill="#7C3AED" />;
+        return <circle key={i} cx={x} cy={y} r="3.5" fill="#E9C46A" />;
       })}
       {labels.map((label, i) => {
         const labelR = r + 22;
@@ -309,7 +309,7 @@ function getCategoryColor(category: string): string {
   const map: Record<string, string> = {
     理科: 'bg-emerald-100 text-emerald-700',
     社会: 'bg-amber-100 text-amber-700',
-    算数: 'bg-blue-100 text-blue-700',
+    算数: 'bg-emerald-100 text-emerald-700',
     美術: 'bg-pink-100 text-pink-700',
   };
   return map[category] || 'bg-gray-100 text-gray-700';

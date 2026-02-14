@@ -13,9 +13,9 @@ interface FunnelChartProps {
 }
 
 const stageColors = [
-  { bg: "bg-blue-500", text: "text-white" },
-  { bg: "bg-blue-400", text: "text-white" },
-  { bg: "bg-purple-500", text: "text-white" },
+  { bg: "bg-emerald-500", text: "text-white" },
+  { bg: "bg-emerald-400", text: "text-white" },
+  { bg: "bg-amber-500", text: "text-white" },
   { bg: "bg-amber-500", text: "text-white" },
 ];
 

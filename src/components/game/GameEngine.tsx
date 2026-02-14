@@ -174,12 +174,12 @@ export default function GameEngine({
               {/* Skill tags */}
               <div className="flex justify-center gap-2 mb-8">
                 {skillTags.思考力 > 0 && (
-                  <span className="px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">
+                  <span className="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 rounded-full">
                     思考力 +{skillTags.思考力}
                   </span>
                 )}
                 {skillTags.探究力 > 0 && (
-                  <span className="px-3 py-1 text-xs font-semibold bg-purple-100 text-purple-700 rounded-full">
+                  <span className="px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">
                     探究力 +{skillTags.探究力}
                   </span>
                 )}

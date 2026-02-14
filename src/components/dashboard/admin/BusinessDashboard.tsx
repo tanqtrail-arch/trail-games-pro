@@ -51,7 +51,7 @@ const channelData = [
   { name: "リファラル", value: 15 },
 ];
 
-const CHANNEL_COLORS = ["#2563EB", "#7C3AED", "#F59E0B", "#10B981"];
+const CHANNEL_COLORS = ["#2D6A4F", "#E9C46A", "#7FB3D3", "#52B788"];
 
 const funnelStages = [
   { label: "PV (月間)", value: 120000, percentage: 100 },
@@ -204,13 +204,13 @@ export default function BusinessDashboard() {
           <span className="text-sm font-medium text-slate-600">
             有料会員 目標進捗
           </span>
-          <span className="text-sm font-bold text-purple-600">
+          <span className="text-sm font-bold text-amber-600">
             {paidMembers.toLocaleString()} / {paidGoal.toLocaleString()}
           </span>
         </div>
         <div className="w-full bg-slate-100 rounded-full h-4 overflow-hidden">
           <div
-            className="bg-gradient-to-r from-purple-500 to-blue-500 h-full rounded-full transition-all duration-700"
+            className="bg-gradient-to-r from-amber-500 to-emerald-500 h-full rounded-full transition-all duration-700"
             style={{
               width: `${Math.min((paidMembers / paidGoal) * 100, 100)}%`,
             }}
@@ -261,7 +261,7 @@ export default function BusinessDashboard() {
                 yAxisId="left"
                 type="monotone"
                 dataKey="new"
-                stroke="#2563EB"
+                stroke="#2D6A4F"
                 strokeWidth={2}
                 name="新規登録"
                 dot={{ r: 3 }}
@@ -270,7 +270,7 @@ export default function BusinessDashboard() {
                 yAxisId="right"
                 type="monotone"
                 dataKey="cumulative"
-                stroke="#7C3AED"
+                stroke="#E9C46A"
                 strokeWidth={2}
                 name="累計"
                 dot={{ r: 3 }}
@@ -313,7 +313,7 @@ export default function BusinessDashboard() {
               <Line
                 type="monotone"
                 dataKey="mrr"
-                stroke="#F59E0B"
+                stroke="#7FB3D3"
                 strokeWidth={3}
                 dot={{ r: 4 }}
               />

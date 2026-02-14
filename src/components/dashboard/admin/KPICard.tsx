@@ -14,14 +14,14 @@ interface KPICardProps {
 
 const colorMap: Record<string, { bg: string; border: string; text: string }> = {
   blue: {
-    bg: "bg-blue-50",
-    border: "border-blue-200",
-    text: "text-blue-700",
+    bg: "bg-emerald-50",
+    border: "border-emerald-200",
+    text: "text-emerald-700",
   },
   purple: {
-    bg: "bg-purple-50",
-    border: "border-purple-200",
-    text: "text-purple-700",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+    text: "text-amber-700",
   },
   amber: {
     bg: "bg-amber-50",
