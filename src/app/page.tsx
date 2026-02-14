@@ -137,7 +137,7 @@ function AnimatedStat({
 
 function FloatingShapes() {
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden>
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
       {/* ---- Aurora mesh blobs with organic morphing ---- */}
       <div
         className="absolute -top-20 -left-20 w-[500px] h-[400px] bg-trail-primary/15 blur-[80px] animate-aurora-morph"
@@ -451,7 +451,7 @@ export default function HomePage() {
         {/* Dot grid texture for depth */}
         <div className="absolute inset-0 dot-grid-bg pointer-events-none" aria-hidden />
         {/* Parallax floating background */}
-        <div ref={parallaxRef} className="parallax-bg">
+        <div ref={parallaxRef} className="absolute inset-0 parallax-bg">
           <FloatingShapes />
         </div>
 
