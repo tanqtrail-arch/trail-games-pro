@@ -27,6 +27,7 @@ import ecoSim01 from './eco-sim-01';
 import numberPuzzle01 from './number-puzzle-01';
 import mathIframe01 from './math-iframe-01';
 import fractionGunman01 from './fraction-gunman-01';
+import mentalMath01 from './mental-math-01';
 
 const gameModules: GameWithTemplate[] = [
   historyQuiz01,
@@ -36,6 +37,7 @@ const gameModules: GameWithTemplate[] = [
   numberPuzzle01,
   mathIframe01,
   fractionGunman01,
+  mentalMath01,
 ];
 
 // ---------------------------------------------------------------------------

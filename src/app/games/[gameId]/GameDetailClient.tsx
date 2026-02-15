@@ -107,6 +107,7 @@ const templateLabels: Record<GameTemplateType, string> = {
   puzzle: 'パズル',
   iframe: '外部ゲーム',
   fraction: '分数ガンマン',
+  'mental-math': '暗算チャレンジ',
 };
 
 const templateIcons: Record<GameTemplateType, string> = {
@@ -117,6 +118,7 @@ const templateIcons: Record<GameTemplateType, string> = {
   puzzle: '\uD83E\uDDE9',
   iframe: '\uD83C\uDF10',
   fraction: '\uD83D\uDD2B',
+  'mental-math': '\uD83E\uDDEE',
 };
 
 // ---------------------------------------------------------------------------

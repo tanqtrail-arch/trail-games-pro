@@ -28,7 +28,7 @@ export type ScoreDisplayType = 'rank' | 'points' | 'stars' | 'title';
 export type FeedbackType = 'game_review' | 'nps' | 'feature_request' | 'churn_reason';
 
 /** ゲームテンプレートの種類 */
-export type GameTemplateType = 'quiz' | 'card' | 'maze' | 'simulation' | 'puzzle' | 'iframe' | 'fraction';
+export type GameTemplateType = 'quiz' | 'card' | 'maze' | 'simulation' | 'puzzle' | 'iframe' | 'fraction' | 'mental-math';
 
 /** セッションの流入元 */
 export type SessionSource = 'direct' | 'dashboard' | 'recommendation' | 'share' | 'notification';
@@ -491,6 +491,38 @@ export interface FractionTemplate {
 }
 
 /**
+ * 暗算ゲームの難易度レベル定義
+ * 問題番号の範囲ごとに演算の種類や数値の範囲を設定する。
+ */
+export interface MentalMathLevel {
+  /** このレベルが適用される開始問題番号（1始まり） */
+  fromQuestion: number;
+  /** このレベルが適用される終了問題番号（1始まり） */
+  toQuestion: number;
+  /** 使用する演算子の配列 */
+  operations: ('+' | '-' | '×' | '÷')[];
+  /** オペランドの最小値 */
+  minNumber: number;
+  /** オペランドの最大値 */
+  maxNumber: number;
+}
+
+/**
+ * 暗算ゲームテンプレート
+ * ランダムに算数の問題を生成し、制限時間内に回答するゲーム用テンプレート。
+ */
+export interface MentalMathTemplate {
+  /** テンプレート種別 */
+  type: 'mental-math';
+  /** 出題する問題数 */
+  totalQuestions: number;
+  /** 1問あたりの制限時間（秒） */
+  timePerQuestion: number;
+  /** 難易度レベルの配列（問題番号範囲ごとに設定） */
+  levels: MentalMathLevel[];
+}
+
+/**
  * ゲームテンプレートのユニオン型
  * type フィールドによって判別可能なディスクリミネーテッドユニオン。
  */
@@ -501,7 +533,8 @@ export type GameTemplate =
   | SimulationTemplate
   | PuzzleTemplate
   | IframeTemplate
-  | FractionTemplate;
+  | FractionTemplate
+  | MentalMathTemplate;
 
 // -----------------------------------------------------------------------------
 // ゲーム定義（テンプレート付き）
