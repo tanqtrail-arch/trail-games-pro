@@ -301,6 +301,7 @@ export default function GameDetailClient({ gameId }: { gameId: string }) {
           templateType={game.template.type}
           scoreDisplayConfig={game.score_display_config}
           skillTags={game.skill_tags}
+          autoStart
         />
       </div>
     );
