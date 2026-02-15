@@ -365,24 +365,50 @@ export interface CardTemplate {
 }
 
 /**
+ * 迷路ノード（グラフ形式）
+ * 迷路上の1地点を表す。question が設定されている場合、通過時にクイズが出題される。
+ */
+export interface MazeNode {
+  /** ノードの一意ID */
+  id: string;
+  /** ノードの表示テキスト（場所の説明など） */
+  text: string;
+  /** クイズの問題文（任意） */
+  question?: string;
+  /** クイズの選択肢（任意） */
+  choices?: string[];
+  /** 正解の選択肢インデックス（0始まり、任意） */
+  correctIndex?: number;
+}
+
+/**
+ * 迷路エッジ（グラフ形式）
+ * 2つのノード間の移動経路を表す。
+ */
+export interface MazeEdge {
+  /** 移動元のノードID */
+  from: string;
+  /** 移動先のノードID */
+  to: string;
+  /** 経路のラベル（任意） */
+  label?: string;
+}
+
+/**
  * 迷路テンプレート
- * 迷路形式のゲーム用テンプレート。
+ * グラフ形式（nodes/edges）の迷路ゲーム用テンプレート。
  */
 export interface MazeTemplate {
   /** テンプレート種別 */
   type: 'maze';
-  /** 迷路の幅（セル数） */
-  width: number;
-  /** 迷路の高さ（セル数） */
-  height: number;
-  /** スタート座標 */
-  start: { x: number; y: number };
-  /** ゴール座標 */
-  goal: { x: number; y: number };
-  /** 壁の配列（セル座標のペア） */
-  walls: Array<{ x: number; y: number }>;
-  /** 途中に配置するクイズ */
-  checkpoints?: QuizQuestion[];
+  /** 迷路のノード配列 */
+  nodes: MazeNode[];
+  /** ノード間のエッジ配列 */
+  edges: MazeEdge[];
+  /** スタートノードのID */
+  startNode: string;
+  /** ゴールノードのID */
+  goalNode: string;
 }
 
 /**

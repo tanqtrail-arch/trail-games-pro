@@ -1,12 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   sampleGamesMap,
   categoryColors,
   getGradeRange,
 } from '@/data/sample-games';
+import GameEngine from '@/components/game/GameEngine';
 import type { GameTemplateType } from '@/types';
 
 // ---------------------------------------------------------------------------
@@ -107,14 +108,25 @@ const templateLabels: Record<GameTemplateType, string> = {
   iframe: '外部ゲーム',
 };
 
+const templateIcons: Record<GameTemplateType, string> = {
+  quiz: '\u2753',
+  card: '\uD83C\uDCCF',
+  maze: '\uD83E\uDDED',
+  simulation: '\uD83C\uDFD9\uFE0F',
+  puzzle: '\uD83E\uDDE9',
+  iframe: '\uD83C\uDF10',
+};
+
 // ---------------------------------------------------------------------------
 // Game detail section
 // ---------------------------------------------------------------------------
 
 function GameInfo({
   game,
+  onPlay,
 }: {
   game: NonNullable<ReturnType<typeof sampleGamesMap.get>>;
+  onPlay: () => void;
 }) {
   const colors = categoryColors[game.category];
 
@@ -146,6 +158,17 @@ function GameInfo({
       </div>
 
       <p className="text-gray-500 leading-relaxed">{game.description}</p>
+
+      {/* Play button */}
+      <button
+        onClick={onPlay}
+        className="w-full py-4 px-8 bg-gradient-to-r from-trail-primary to-emerald-500 text-white text-lg font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
+      >
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        ゲームを開始する
+      </button>
 
       <div className="card">
         <h3 className="text-sm font-bold text-gray-500 mb-4 text-center">
@@ -193,13 +216,15 @@ function GameInfo({
 }
 
 // ---------------------------------------------------------------------------
-// Game engine placeholder
+// Game preview card (shown before playing)
 // ---------------------------------------------------------------------------
 
-function GameEnginePlaceholder({
+function GamePreviewCard({
   game,
+  onPlay,
 }: {
   game: NonNullable<ReturnType<typeof sampleGamesMap.get>>;
+  onPlay: () => void;
 }) {
   const colors = categoryColors[game.category];
 
@@ -209,18 +234,17 @@ function GameEnginePlaceholder({
     >
       <div className="aspect-[4/3] md:aspect-[16/10] flex flex-col items-center justify-center p-8 text-white text-center">
         <div className="text-6xl mb-4">
-          {game.template.type === 'quiz' && '&#10067;'}
-          {game.template.type === 'card' && '&#127183;'}
-          {game.template.type === 'maze' && '&#128739;'}
-          {game.template.type === 'simulation' && '&#127961;'}
-          {game.template.type === 'puzzle' && '&#129513;'}
+          {templateIcons[game.template.type]}
         </div>
         <h2 className="text-2xl font-black mb-2">{game.title}</h2>
         <p className="text-white/70 text-sm mb-6 max-w-md">
           {templateLabels[game.template.type]}形式 /{' '}
           {getGradeRange(game.grade_min, game.grade_max)}対象
         </p>
-        <button className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl font-bold hover:bg-white/30 transition-all border border-white/30">
+        <button
+          onClick={onPlay}
+          className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl font-bold hover:bg-white/30 transition-all border border-white/30"
+        >
           &#9654; ゲームを開始する
         </button>
       </div>
@@ -234,6 +258,7 @@ function GameEnginePlaceholder({
 
 export default function GameDetailClient({ gameId }: { gameId: string }) {
   const game = useMemo(() => sampleGamesMap.get(gameId), [gameId]);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   if (!game) {
     return (
@@ -255,14 +280,41 @@ export default function GameDetailClient({ gameId }: { gameId: string }) {
     );
   }
 
+  // ---- Playing mode: show GameEngine full-screen ----
+  if (isPlaying) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white overflow-auto">
+        {/* Back button */}
+        <button
+          onClick={() => setIsPlaying(false)}
+          className="fixed top-4 left-4 z-[60] flex items-center gap-1 px-3 py-2 bg-white/90 backdrop-blur-sm text-gray-600 rounded-lg text-sm font-medium hover:bg-white hover:text-trail-dark transition-colors shadow-md border border-gray-200"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          戻る
+        </button>
+
+        <GameEngine
+          gameId={game.id}
+          gameConfig={game}
+          templateType={game.template.type}
+          scoreDisplayConfig={game.score_display_config}
+          skillTags={game.skill_tags}
+        />
+      </div>
+    );
+  }
+
+  // ---- Detail mode: show info + preview ----
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="flex-1 order-1 lg:order-2">
-          <GameEnginePlaceholder game={game} />
+          <GamePreviewCard game={game} onPlay={() => setIsPlaying(true)} />
         </div>
         <div className="w-full lg:w-96 order-2 lg:order-1 shrink-0">
-          <GameInfo game={game} />
+          <GameInfo game={game} onPlay={() => setIsPlaying(true)} />
         </div>
       </div>
     </div>

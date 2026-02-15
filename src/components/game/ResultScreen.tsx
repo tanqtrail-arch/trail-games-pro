@@ -3,9 +3,11 @@
 import { useState, useEffect, useMemo } from "react";
 
 interface ScoreDisplayConfig {
-  type: "rank" | "points" | "stars";
+  type: "rank" | "points" | "stars" | "title";
   ranks?: { threshold: number; label: string; color: string }[];
+  rules?: { min_percent: number; label: string; color: string }[];
   maxStars?: number;
+  max_stars?: number;
 }
 
 interface ResultScreenProps {
@@ -269,6 +271,34 @@ function ScoreDisplay({
           </p>
         </div>
       );
+
+    case "title": {
+      const titleRules = config.rules || [];
+      const titleRule =
+        titleRules.find((r) => percentage >= r.min_percent) ||
+        titleRules[titleRules.length - 1];
+
+      return (
+        <div className="text-center">
+          <p className="text-sm text-gray-500 mb-2">称号</p>
+          {titleRule ? (
+            <div
+              className="inline-flex items-center justify-center px-6 py-3 rounded-2xl text-2xl sm:text-3xl font-black text-white shadow-xl mb-3"
+              style={{
+                backgroundColor: titleRule.color,
+                animation: isHighScore ? "pulse 2s infinite" : undefined,
+              }}
+            >
+              {titleRule.label}
+            </div>
+          ) : null}
+          <p className="text-2xl font-bold text-trail-dark">
+            {animatedScore}
+            <span className="text-base text-gray-400"> / {maxScore}点</span>
+          </p>
+        </div>
+      );
+    }
 
     case "points":
     default:
