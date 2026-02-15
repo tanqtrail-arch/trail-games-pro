@@ -28,7 +28,7 @@ export type ScoreDisplayType = 'rank' | 'points' | 'stars' | 'title';
 export type FeedbackType = 'game_review' | 'nps' | 'feature_request' | 'churn_reason';
 
 /** ゲームテンプレートの種類 */
-export type GameTemplateType = 'quiz' | 'card' | 'maze' | 'simulation' | 'puzzle' | 'iframe';
+export type GameTemplateType = 'quiz' | 'card' | 'maze' | 'simulation' | 'puzzle' | 'iframe' | 'fraction';
 
 /** セッションの流入元 */
 export type SessionSource = 'direct' | 'dashboard' | 'recommendation' | 'share' | 'notification';
@@ -462,6 +462,35 @@ export interface IframeTemplate {
 }
 
 /**
+ * 分数クイズの1問分の定義
+ */
+export interface FractionQuestion {
+  /** 分子 */
+  numerator: number;
+  /** 分母 */
+  denominator: number;
+  /** 選択肢の配列（例: ["1/2", "1/3", "2/5"]） */
+  choices: string[];
+  /** 正解の選択肢インデックス（0始まり） */
+  correct_answer_index: number;
+  /** 正解時の解説 */
+  explanation: string;
+  /** 制限時間（秒） */
+  time_limit: number;
+}
+
+/**
+ * 分数テンプレート
+ * 円グラフで分数を表示し、4択で回答するゲーム用テンプレート。
+ */
+export interface FractionTemplate {
+  /** テンプレート種別 */
+  type: 'fraction';
+  /** 問題の配列 */
+  questions: FractionQuestion[];
+}
+
+/**
  * ゲームテンプレートのユニオン型
  * type フィールドによって判別可能なディスクリミネーテッドユニオン。
  */
@@ -471,7 +500,8 @@ export type GameTemplate =
   | MazeTemplate
   | SimulationTemplate
   | PuzzleTemplate
-  | IframeTemplate;
+  | IframeTemplate
+  | FractionTemplate;
 
 // -----------------------------------------------------------------------------
 // ゲーム定義（テンプレート付き）

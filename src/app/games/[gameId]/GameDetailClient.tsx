@@ -106,6 +106,7 @@ const templateLabels: Record<GameTemplateType, string> = {
   simulation: 'シミュレーション',
   puzzle: 'パズル',
   iframe: '外部ゲーム',
+  fraction: '分数ガンマン',
 };
 
 const templateIcons: Record<GameTemplateType, string> = {
@@ -115,6 +116,7 @@ const templateIcons: Record<GameTemplateType, string> = {
   simulation: '\uD83C\uDFD9\uFE0F',
   puzzle: '\uD83E\uDDE9',
   iframe: '\uD83C\uDF10',
+  fraction: '\uD83D\uDD2B',
 };
 
 // ---------------------------------------------------------------------------
