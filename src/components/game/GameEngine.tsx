@@ -39,6 +39,8 @@ interface GameEngineProps {
   templateType: TemplateType;
   scoreDisplayConfig: ScoreDisplayConfig;
   skillTags: SkillTags;
+  /** true の場合イントロ画面をスキップして直接ゲームを開始する */
+  autoStart?: boolean;
 }
 
 /**
@@ -66,8 +68,9 @@ export default function GameEngine({
   templateType,
   scoreDisplayConfig,
   skillTags,
+  autoStart = false,
 }: GameEngineProps) {
-  const [gameState, setGameState] = useState<GameState>("intro");
+  const [gameState, setGameState] = useState<GameState>(autoStart ? "playing" : "intro");
   const [result, setResult] = useState<GameResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
