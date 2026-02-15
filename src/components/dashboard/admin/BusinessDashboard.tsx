@@ -51,7 +51,7 @@ const channelData = [
   { name: "リファラル", value: 15 },
 ];
 
-const CHANNEL_COLORS = ["#2D6A4F", "#E9C46A", "#7FB3D3", "#52B788"];
+const CHANNEL_COLORS = ["#16A34A", "#FACC15", "#38BDF8", "#4ADE80"];
 
 const funnelStages = [
   { label: "PV (月間)", value: 120000, percentage: 100 },
@@ -261,7 +261,7 @@ export default function BusinessDashboard() {
                 yAxisId="left"
                 type="monotone"
                 dataKey="new"
-                stroke="#2D6A4F"
+                stroke="#16A34A"
                 strokeWidth={2}
                 name="新規登録"
                 dot={{ r: 3 }}
@@ -270,7 +270,7 @@ export default function BusinessDashboard() {
                 yAxisId="right"
                 type="monotone"
                 dataKey="cumulative"
-                stroke="#E9C46A"
+                stroke="#FACC15"
                 strokeWidth={2}
                 name="累計"
                 dot={{ r: 3 }}
@@ -313,7 +313,7 @@ export default function BusinessDashboard() {
               <Line
                 type="monotone"
                 dataKey="mrr"
-                stroke="#7FB3D3"
+                stroke="#38BDF8"
                 strokeWidth={3}
                 dot={{ r: 4 }}
               />

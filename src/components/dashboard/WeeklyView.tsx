@@ -138,8 +138,8 @@ export default function WeeklyView() {
               <Radar
                 name="今週"
                 dataKey="thisWeek"
-                stroke="#2D6A4F"
-                fill="#2D6A4F"
+                stroke="#16A34A"
+                fill="#16A34A"
                 fillOpacity={0.25}
                 strokeWidth={2.5}
               />
@@ -180,9 +180,9 @@ export default function WeeklyView() {
               <Line
                 type="monotone"
                 dataKey="score"
-                stroke="#2D6A4F"
+                stroke="#16A34A"
                 strokeWidth={3}
-                dot={{ r: 5, fill: "#2D6A4F", stroke: "#fff", strokeWidth: 2 }}
+                dot={{ r: 5, fill: "#16A34A", stroke: "#fff", strokeWidth: 2 }}
                 activeDot={{ r: 7 }}
               />
             </LineChart>

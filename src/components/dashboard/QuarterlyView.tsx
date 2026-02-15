@@ -124,7 +124,7 @@ export default function QuarterlyView() {
             <Line
               type="monotone"
               dataKey="思考力"
-              stroke="#2D6A4F"
+              stroke="#16A34A"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -132,7 +132,7 @@ export default function QuarterlyView() {
             <Line
               type="monotone"
               dataKey="探究力"
-              stroke="#E9C46A"
+              stroke="#FACC15"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -140,7 +140,7 @@ export default function QuarterlyView() {
             <Line
               type="monotone"
               dataKey="創造力"
-              stroke="#7FB3D3"
+              stroke="#38BDF8"
               strokeWidth={2.5}
               dot={false}
               activeDot={{ r: 5 }}
@@ -203,8 +203,8 @@ export default function QuarterlyView() {
               <Radar
                 name="スコア"
                 dataKey="value"
-                stroke="#E9C46A"
-                fill="#E9C46A"
+                stroke="#FACC15"
+                fill="#FACC15"
                 fillOpacity={0.2}
                 strokeWidth={2.5}
               />
@@ -241,7 +241,7 @@ export default function QuarterlyView() {
               <Bar
                 dataKey="child"
                 name="ゆうたくん"
-                fill="#2D6A4F"
+                fill="#16A34A"
                 radius={[6, 6, 0, 0]}
                 barSize={20}
               />

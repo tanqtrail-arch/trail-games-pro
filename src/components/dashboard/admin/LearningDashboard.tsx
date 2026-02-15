@@ -126,10 +126,10 @@ const gamePerformance: GameRow[] = [
 ];
 
 const completionByCategory = [
-  { category: "理科", rate: 72, color: "#2D6A4F" },
-  { category: "社会", rate: 82, color: "#E9C46A" },
-  { category: "算数", rate: 48, color: "#7FB3D3" },
-  { category: "美術/音楽", rate: 88, color: "#52B788" },
+  { category: "理科", rate: 72, color: "#16A34A" },
+  { category: "社会", rate: 82, color: "#FACC15" },
+  { category: "算数", rate: 48, color: "#38BDF8" },
+  { category: "美術/音楽", rate: 88, color: "#4ADE80" },
 ];
 
 const stumblePoints = [
@@ -597,7 +597,7 @@ export default function LearningDashboard() {
             <Line
               type="monotone"
               dataKey="thinking"
-              stroke="#2D6A4F"
+              stroke="#16A34A"
               strokeWidth={2}
               name="思考力"
               dot={{ r: 4 }}
@@ -605,7 +605,7 @@ export default function LearningDashboard() {
             <Line
               type="monotone"
               dataKey="inquiry"
-              stroke="#E9C46A"
+              stroke="#FACC15"
               strokeWidth={2}
               name="探究力"
               dot={{ r: 4 }}
@@ -613,7 +613,7 @@ export default function LearningDashboard() {
             <Line
               type="monotone"
               dataKey="creativity"
-              stroke="#7FB3D3"
+              stroke="#38BDF8"
               strokeWidth={2}
               name="創造力"
               dot={{ r: 4 }}

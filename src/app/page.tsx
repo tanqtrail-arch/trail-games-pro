@@ -138,63 +138,46 @@ function AnimatedStat({
 function FloatingShapes() {
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* ---- Aurora mesh blobs ---- */}
-      <div
-        className="absolute -top-32 -left-32 w-[600px] h-[500px] bg-trail-primary/25 blur-[100px] animate-aurora-morph"
-      />
-      <div
-        className="absolute -bottom-40 -right-32 w-[650px] h-[550px] bg-trail-secondary/20 blur-[100px] animate-aurora-morph"
-        style={{ animationDelay: '-5s' }}
-      />
-      <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-trail-accent/15 blur-[80px] animate-aurora-morph"
-        style={{ animationDelay: '-10s' }}
-      />
+      {/* ---- Soft gradient blobs (控えめ) ---- */}
+      <div className="absolute -top-24 -left-24 w-[450px] h-[350px] bg-trail-primary/10 blur-[100px] animate-aurora-morph" />
+      <div className="absolute -bottom-32 -right-24 w-[400px] h-[300px] bg-trail-secondary/10 blur-[100px] animate-aurora-morph" style={{ animationDelay: '-5s' }} />
 
-      {/* ---- Trail-themed floating SVG shapes ---- */}
+      {/* ---- Trail SVG decorations (控えめに) ---- */}
 
-      {/* Compass rose */}
-      <svg className="absolute top-[10%] left-[6%] w-20 h-20 text-trail-primary/40 animate-float-drift" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      {/* Compass */}
+      <svg className="absolute top-[12%] left-[7%] w-14 h-14 text-trail-primary/15 animate-float-drift" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
-        <polygon points="12,2 14.5,9.5 12,7.5 9.5,9.5" fill="currentColor" opacity="0.6" />
-        <polygon points="12,22 14.5,14.5 12,16.5 9.5,14.5" fill="currentColor" opacity="0.4" />
+        <polygon points="12,2 14.5,9.5 12,7.5 9.5,9.5" fill="currentColor" opacity="0.4" />
+        <polygon points="12,22 14.5,14.5 12,16.5 9.5,14.5" fill="currentColor" opacity="0.2" />
         <line x1="2" y1="12" x2="6" y2="12" />
         <line x1="18" y1="12" x2="22" y2="12" />
       </svg>
 
-      {/* Star / sparkle */}
-      <svg className="absolute top-[15%] right-[12%] w-12 h-12 text-trail-accent/50 animate-twinkle" style={{ animationDelay: '1s' }} viewBox="0 0 24 24" fill="currentColor">
+      {/* Sparkle star */}
+      <svg className="absolute top-[18%] right-[14%] w-7 h-7 text-trail-secondary/30 animate-twinkle" style={{ animationDelay: '1s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
       </svg>
 
       {/* Leaf */}
-      <svg className="absolute bottom-[25%] left-[15%] w-16 h-16 text-trail-success/40 animate-float" style={{ animationDelay: '2s' }} viewBox="0 0 24 24" fill="currentColor">
+      <svg className="absolute bottom-[28%] left-[16%] w-10 h-10 text-trail-success/20 animate-float" style={{ animationDelay: '2s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20c4 0 8.5-3 11-8 0 0-2-2-5-2a7.81 7.81 0 00-2.5.42C13 8.55 16 5 21 3c0 0-3-1-6 1a14 14 0 00-2 4z" />
       </svg>
 
-      {/* Mountain peak */}
-      <svg className="absolute top-[50%] right-[8%] w-20 h-20 text-trail-primary/30 animate-float-slow" style={{ animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+      {/* Mountain */}
+      <svg className="absolute top-[52%] right-[9%] w-12 h-12 text-trail-primary/15 animate-float-slow" style={{ animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
         <path d="M3 20L9 8l4 6 3-4 5 10H3z" />
       </svg>
 
-      {/* Hollow circle / ring */}
-      <div className="absolute top-[6%] right-[30%] w-14 h-14 border-2 border-trail-primary/30 rounded-full animate-spin-slow" style={{ animationDelay: '1.5s' }} />
-
-      {/* Diamond */}
-      <div className="absolute bottom-[15%] right-[22%] w-10 h-10 border-2 border-trail-accent/35 rotate-45 animate-float-drift" style={{ animationDelay: '3s' }} />
-
-      {/* Twinkle star */}
-      <svg className="absolute bottom-[38%] right-[38%] w-10 h-10 text-trail-secondary/40 animate-twinkle" style={{ animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
-      </svg>
+      {/* Ring */}
+      <div className="absolute top-[8%] right-[32%] w-10 h-10 border-[1.5px] border-trail-primary/15 rounded-full animate-spin-slow" style={{ animationDelay: '1.5s' }} />
 
       {/* Trail dots path */}
-      <svg className="absolute top-[60%] left-[3%] w-80 h-40 text-trail-primary/20 animate-float-slow" style={{ animationDelay: '4s' }} viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6 8" strokeLinecap="round">
+      <svg className="absolute top-[62%] left-[4%] w-56 h-28 text-trail-primary/10 animate-float-slow" style={{ animationDelay: '4s' }} viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round">
         <path d="M10 80 Q50 20, 100 50 T190 30" />
       </svg>
 
       {/* Small twinkle */}
-      <svg className="absolute top-[32%] left-[32%] w-8 h-8 text-trail-accent/40 animate-twinkle" style={{ animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
+      <svg className="absolute top-[35%] left-[34%] w-5 h-5 text-trail-secondary/25 animate-twinkle" style={{ animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41Z" />
       </svg>
     </div>
@@ -236,7 +219,7 @@ function SkillCard({
 }) {
   return (
     <div
-      className="card glass-card card-tilt group text-center"
+      className="card card-tilt group text-center"
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div
@@ -571,12 +554,10 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Three Core Skills Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4 relative overflow-hidden noise-overlay">
-        {/* Dot grid subtle texture */}
-        <div className="absolute inset-0 dot-grid-bg pointer-events-none -z-10" aria-hidden />
-        {/* Section background decorations – organic morphing blobs */}
-        <div className="absolute top-20 right-0 w-72 h-72 bg-emerald-100/40 blur-[80px] -z-10 animate-aurora-morph" />
-        <div className="absolute bottom-10 left-0 w-64 h-64 bg-amber-100/30 blur-[80px] -z-10 animate-aurora-morph" style={{ animationDelay: '-7s' }} />
+      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
+        {/* Subtle background blob */}
+        <div className="absolute top-20 right-0 w-64 h-64 bg-green-100/30 rounded-full blur-3xl -z-10" />
+        <div className="absolute bottom-10 left-0 w-56 h-56 bg-yellow-50/40 rounded-full blur-3xl -z-10" />
 
         <div className="max-w-5xl mx-auto">
           <div ref={skillsHeadRef} className="text-center mb-14 reveal">
@@ -616,14 +597,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Subject Categories Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-24 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden noise-overlay">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-trail-accent/5 blur-[100px] -z-10 animate-aurora-morph" style={{ animationDelay: '-3s' }} />
-        {/* Decorative trail path */}
-        <div className="trail-path-decoration -z-10" aria-hidden>
-          <svg viewBox="0 0 1200 500" fill="none" stroke="currentColor" className="text-trail-primary" strokeWidth="2" strokeDasharray="8 12" strokeLinecap="round">
-            <path d="M-50 400 Q200 100, 500 300 T1000 150 T1300 250" />
-          </svg>
-        </div>
+      <section className="py-20 md:py-24 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden">
 
         <div className="max-w-5xl mx-auto">
           <div ref={subjectsHeadRef} className="text-center mb-14 reveal">
@@ -664,9 +638,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Pricing Section */}
       {/* ================================================================= */}
-      <section id="pricing" className="py-20 md:py-28 px-4 relative overflow-hidden noise-overlay dot-grid-bg">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-trail-primary/5 blur-[100px] -z-10 animate-aurora-morph" style={{ animationDelay: '-8s' }} />
-        <div className="absolute bottom-20 left-10 w-72 h-72 bg-trail-secondary/5 blur-[90px] -z-10 animate-aurora-morph" style={{ animationDelay: '-12s' }} />
+      <section id="pricing" className="py-20 md:py-28 px-4 relative overflow-hidden bg-trail-light">
 
         <div className="max-w-5xl mx-auto">
           <div ref={pricingHeadRef} className="text-center mb-14 reveal">
@@ -731,14 +703,11 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Final CTA Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4 relative noise-overlay">
+      <section className="py-20 md:py-28 px-4 relative">
         <div ref={ctaRef} className="max-w-3xl mx-auto text-center reveal-scale">
-          <div className="bg-gradient-to-br from-trail-primary to-trail-secondary rounded-3xl p-10 md:p-16 text-white shadow-2xl relative overflow-hidden">
-            {/* Animated background circles with organic morph */}
-            <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/5 animate-aurora-morph" />
-            <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-white/10 animate-aurora-morph" style={{ animationDelay: '-5s' }} />
-            {/* Subtle dot pattern overlay inside CTA card */}
-            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+          <div className="bg-gradient-to-br from-trail-primary to-green-600 rounded-3xl p-10 md:p-16 text-white shadow-2xl relative overflow-hidden">
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/5 rounded-full" />
+            <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-white/10 rounded-full" />
 
             <h2 className="text-2xl md:text-4xl font-black mb-4 relative">
               さあ、探究の旅を始めよう

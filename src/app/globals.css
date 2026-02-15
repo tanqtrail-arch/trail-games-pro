@@ -126,7 +126,7 @@ html {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.06;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -136,7 +136,7 @@ html {
 /* Subtle dot-grid pattern – adds sophistication to flat sections         */
 /* ====================================================================== */
 .dot-grid-bg {
-  background-image: radial-gradient(circle, rgba(45, 106, 79, 0.10) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(22, 163, 74, 0.06) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -157,10 +157,9 @@ html {
 /* ====================================================================== */
 .aurora-bg {
   background:
-    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(45, 106, 79, 0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 85% 15%, rgba(233, 196, 106, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(127, 179, 211, 0.14) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 75% 60%, rgba(82, 183, 136, 0.10) 0%, transparent 45%);
+    radial-gradient(ellipse 70% 50% at 5% 15%, rgba(22, 163, 74, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 10%, rgba(250, 204, 21, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 85%, rgba(56, 189, 248, 0.06) 0%, transparent 45%);
 }
 
 /* ====================================================================== */

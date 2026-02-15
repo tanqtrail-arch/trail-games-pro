@@ -91,8 +91,8 @@ export default function SubjectChart({
         <Radar
           name="今月"
           dataKey="current"
-          stroke="#E9C46A"
-          fill="#E9C46A"
+          stroke="#FACC15"
+          fill="#FACC15"
           fillOpacity={0.25}
           strokeWidth={2.5}
         />

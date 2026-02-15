@@ -84,8 +84,8 @@ export default function SkillRadarChart({
         <Radar
           name="今回"
           dataKey="current"
-          stroke="#2D6A4F"
-          fill="#2D6A4F"
+          stroke="#16A34A"
+          fill="#16A34A"
           fillOpacity={0.25}
           strokeWidth={2.5}
         />
