@@ -28,6 +28,7 @@ const ALL_TEMPLATES: Array<{ value: GameTemplateType | 'all'; label: string }> =
   { value: 'maze', label: '迷路' },
   { value: 'simulation', label: 'シミュレーション' },
   { value: 'puzzle', label: 'パズル' },
+  { value: 'iframe', label: '外部ゲーム' },
   { value: 'fraction', label: '分数ガンマン' },
 ];
 

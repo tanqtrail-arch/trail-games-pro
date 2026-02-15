@@ -40,6 +40,8 @@
     this._pauseCallback = null;
     this._resumeCallback = null;
     this._resetCallback = null;
+    this._initialized = false;
+    this._readyRetryTimer = null;
 
     var self = this;
 
@@ -50,6 +52,12 @@
 
       switch (data.type) {
         case "INIT_GAME":
+          self._initialized = true;
+          // Stop retrying GAME_READY once INIT_GAME is received
+          if (self._readyRetryTimer) {
+            clearInterval(self._readyRetryTimer);
+            self._readyRetryTimer = null;
+          }
           if (self._initCallback && data.payload) {
             self._initCallback(data.payload);
           }
@@ -68,6 +76,18 @@
 
     // Notify the host that the game is ready
     this._post({ type: "GAME_READY" });
+
+    // Retry GAME_READY every 500ms until INIT_GAME is received (max 10 retries)
+    var retryCount = 0;
+    this._readyRetryTimer = setInterval(function () {
+      retryCount++;
+      if (self._initialized || retryCount >= 10) {
+        clearInterval(self._readyRetryTimer);
+        self._readyRetryTimer = null;
+        return;
+      }
+      self._post({ type: "GAME_READY" });
+    }, 500);
   }
 
   // Send a postMessage to the parent window

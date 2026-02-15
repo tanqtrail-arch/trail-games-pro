@@ -24,6 +24,7 @@ type IframeStatus = "loading" | "ready" | "playing" | "error";
 export default function IframeGame({ gameConfig, onFinish }: IframeGameProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const startTimeRef = useRef<number>(Date.now());
+  const statusRef = useRef<IframeStatus>("loading");
   const [status, setStatus] = useState<IframeStatus>("loading");
   const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
@@ -40,6 +41,23 @@ export default function IframeGame({ gameConfig, onFinish }: IframeGameProps) {
 
   const sandbox = gameConfig.template.sandbox || "allow-scripts allow-same-origin";
 
+  // Helper: send INIT_GAME to the iframe and mark as ready
+  const sendInitGame = useCallback(() => {
+    statusRef.current = "ready";
+    setStatus("ready");
+    iframeRef.current?.contentWindow?.postMessage(
+      {
+        type: "INIT_GAME",
+        payload: {
+          user_id: "current-user", // TODO: replace with actual user
+          game_id: gameConfig.id,
+          template: gameConfig.template,
+        },
+      },
+      "*"
+    );
+  }, [gameConfig]);
+
   // Handle postMessage from iframe
   const handleMessage = useCallback(
     (event: MessageEvent) => {
@@ -49,22 +67,13 @@ export default function IframeGame({ gameConfig, onFinish }: IframeGameProps) {
 
       switch (data.type) {
         case "GAME_READY":
-          setStatus("ready");
-          // Send INIT to the game
-          iframeRef.current?.contentWindow?.postMessage(
-            {
-              type: "INIT_GAME",
-              payload: {
-                user_id: "current-user", // TODO: replace with actual user
-                game_id: gameConfig.id,
-                template: gameConfig.template,
-              },
-            },
-            "*"
-          );
+          if (statusRef.current === "loading") {
+            sendInitGame();
+          }
           break;
 
         case "GAME_STARTED":
+          statusRef.current = "playing";
           setStatus("playing");
           startTimeRef.current = Date.now();
           break;
@@ -95,13 +104,14 @@ export default function IframeGame({ gameConfig, onFinish }: IframeGameProps) {
 
         case "GAME_ERROR":
           if ("payload" in data) {
+            statusRef.current = "error";
             setStatus("error");
             setErrorMsg(data.payload.message);
           }
           break;
       }
     },
-    [gameConfig, onFinish]
+    [gameConfig, onFinish, sendInitGame]
   );
 
   useEffect(() => {
@@ -109,10 +119,21 @@ export default function IframeGame({ gameConfig, onFinish }: IframeGameProps) {
     return () => window.removeEventListener("message", handleMessage);
   }, [handleMessage]);
 
+  // Fallback: when iframe finishes loading, if GAME_READY was not received, init directly
+  const handleIframeLoad = useCallback(() => {
+    // Give a short delay for GAME_READY postMessage to arrive
+    setTimeout(() => {
+      if (statusRef.current === "loading") {
+        sendInitGame();
+      }
+    }, 500);
+  }, [sendInitGame]);
+
   // Loading timeout (15 seconds)
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (status === "loading") {
+      if (statusRef.current === "loading") {
+        statusRef.current = "error";
         setStatus("error");
         setErrorMsg("ゲームの読み込みがタイムアウトしました。ページを再読み込みしてください。");
       }
@@ -169,6 +190,7 @@ export default function IframeGame({ gameConfig, onFinish }: IframeGameProps) {
         className="w-full h-full border-0"
         title={gameConfig.title}
         allow="autoplay"
+        onLoad={handleIframeLoad}
       />
     </div>
   );
