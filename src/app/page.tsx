@@ -114,19 +114,26 @@ function AnimatedStat({
   label,
   value,
   suffix,
+  icon,
 }: {
   label: string;
   value: number;
   suffix?: string;
+  icon: string;
 }) {
   const counter = useAnimatedCounter(value);
   return (
-    <div ref={counter.ref} className="text-center">
-      <div className="stat-number">
-        {counter.value.toLocaleString()}
-        {suffix && <span className="text-xl ml-1">{suffix}</span>}
+    <div ref={counter.ref} className="flex items-center gap-3 bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+      <div className="w-10 h-10 rounded-lg bg-trail-primary/10 flex items-center justify-center shrink-0">
+        <span className="text-lg" dangerouslySetInnerHTML={{ __html: icon }} />
       </div>
-      <div className="text-sm text-gray-500 mt-1 font-medium">{label}</div>
+      <div>
+        <div className="text-2xl font-black text-trail-primary leading-tight">
+          {counter.value.toLocaleString()}
+          {suffix && <span className="text-base ml-0.5">{suffix}</span>}
+        </div>
+        <div className="text-xs text-gray-500 font-medium">{label}</div>
+      </div>
     </div>
   );
 }
@@ -356,6 +363,117 @@ function PricingCard({
 }
 
 // ---------------------------------------------------------------------------
+// Sticky navigation bar
+// ---------------------------------------------------------------------------
+
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const links = [
+    { label: 'ゲーム', href: '/games' },
+    { label: '特徴', href: '#features' },
+    { label: '料金', href: '#pricing' },
+    { label: 'FAQ', href: '#faq' },
+  ];
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100'
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 20L9 8l4 6 3-4 5 10" />
+            </svg>
+          </div>
+          <span className="font-black text-xl text-trail-dark">TRAIL</span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-sm font-medium transition-colors hover:text-trail-primary ${
+                scrolled ? 'text-trail-dark' : 'text-trail-dark/70'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href="/signup"
+            className="text-sm font-bold bg-trail-primary text-white px-5 py-2 rounded-xl hover:opacity-90 transition-all shadow-sm"
+          >
+            無料で始める
+          </Link>
+        </nav>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden p-2 text-trail-dark"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="メニュー"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            {menuOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </>
+            ) : (
+              <>
+                <line x1="3" y1="7" x2="21" y2="7" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="17" x2="21" y2="17" />
+              </>
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 shadow-lg">
+          <nav className="flex flex-col p-4 gap-1">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-trail-dark py-3 px-4 rounded-lg hover:bg-trail-light transition-colors"
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/signup"
+              className="text-sm font-bold bg-trail-primary text-white py-3 px-4 rounded-xl text-center mt-2"
+              onClick={() => setMenuOpen(false)}
+            >
+              無料で始める
+            </Link>
+          </nav>
+        </div>
+      )}
+    </header>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Marquee ticker section
 // ---------------------------------------------------------------------------
 
@@ -427,10 +545,12 @@ export default function HomePage() {
 
   return (
     <div className="overflow-x-hidden">
+      <Navbar />
+
       {/* ================================================================= */}
       {/* Hero Section */}
       {/* ================================================================= */}
-      <section className="relative py-16 md:py-24 px-4 overflow-hidden min-h-[80vh] flex items-center aurora-bg noise-overlay">
+      <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 px-4 overflow-hidden min-h-[80vh] flex items-center aurora-bg noise-overlay">
         {/* Dot grid texture for depth */}
         <div className="absolute inset-0 dot-grid-bg pointer-events-none" aria-hidden />
         {/* Parallax floating background */}
@@ -514,38 +634,38 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Platform Stats Section */}
       {/* ================================================================= */}
-      <section className="py-10 md:py-14 px-4 bg-white/60 backdrop-blur-sm border-b border-gray-100 relative noise-overlay">
-        <div ref={statsRef} className="max-w-5xl mx-auto reveal">
-          {stats && (
-            <p className="text-center text-lg font-bold text-trail-primary mb-8">
-              みんなで{totalHours.toLocaleString()}時間探究中!
-            </p>
-          )}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4">
+      <section className="py-10 md:py-14 px-4 bg-white border-b border-gray-100">
+        <div ref={statsRef} className="max-w-6xl mx-auto reveal">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
             <AnimatedStat
               label="総プレイ人数"
               value={stats?.totalPlayers ?? 0}
               suffix="人"
+              icon="&#128101;"
             />
             <AnimatedStat
               label="総プレイ時間"
               value={totalHours}
               suffix="時間"
+              icon="&#9201;"
             />
             <AnimatedStat
               label="今日のプレイ人数"
               value={stats?.todayPlayers ?? 0}
               suffix="人"
+              icon="&#127775;"
             />
             <AnimatedStat
               label="公開ゲーム数"
               value={stats?.totalGames ?? 0}
               suffix="本"
+              icon="&#127918;"
             />
             <AnimatedStat
               label="最高レベル"
               value={stats?.highestLevel ?? 0}
               suffix="Lv"
+              icon="&#127942;"
             />
           </div>
         </div>
@@ -554,7 +674,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* TRAILの特徴 — Features Section */}
       {/* ================================================================= */}
-      <section className="py-14 md:py-20 px-4">
+      <section id="features" className="py-14 md:py-20 px-4 scroll-mt-16">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
@@ -616,22 +736,22 @@ export default function HomePage() {
             </h2>
             <p className="text-gray-500">会員登録なしでも、すぐにゲームをプレイできます</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            {/* Connector line (desktop) */}
+            <div className="hidden md:block absolute top-8 left-[calc(16.67%+32px)] right-[calc(16.67%+32px)] h-0.5 bg-trail-primary/20" aria-hidden />
+
             {[
               { step: '1', title: 'ゲームを選ぶ', description: '理科・社会・算数・美術から、興味のあるゲームを選ぼう。', emoji: '&#128270;' },
               { step: '2', title: '遊びながら学ぶ', description: 'クイズ・パズル・カードバトルで楽しみながら探究力を鍛えよう。', emoji: '&#127918;' },
               { step: '3', title: '成長を確認する', description: 'スキルレーダーチャートで思考力・探究力・創造力の成長が見える。', emoji: '&#128200;' },
             ].map((item, i) => (
-              <div key={i} className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-trail-primary text-white flex items-center justify-center text-2xl font-black shadow-lg">
+              <div key={i} className="text-center relative">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-trail-primary text-white flex items-center justify-center text-2xl font-black shadow-lg relative z-10">
                   {item.step}
                 </div>
                 <span className="text-3xl mb-3 block" dangerouslySetInnerHTML={{ __html: item.emoji }} />
                 <h3 className="text-lg font-bold text-trail-dark mb-2">{item.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
-                {i < 2 && (
-                  <div className="hidden md:block text-trail-primary/30 text-4xl mt-4 absolute right-0 top-1/2 -translate-y-1/2">&rarr;</div>
-                )}
               </div>
             ))}
           </div>
@@ -730,7 +850,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Pricing Section */}
       {/* ================================================================= */}
-      <section id="pricing" className="py-14 md:py-20 px-4 relative overflow-hidden bg-trail-light">
+      <section id="pricing" className="py-14 md:py-20 px-4 relative overflow-hidden bg-trail-light scroll-mt-16">
 
         <div className="max-w-5xl mx-auto">
           <div ref={pricingHeadRef} className="text-center mb-10 reveal">
@@ -824,13 +944,14 @@ export default function HomePage() {
                 stars: 5,
               },
             ].map((testimonial, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 card-tilt">
+              <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 card-tilt relative">
+                <span className="absolute top-4 right-5 text-5xl text-trail-primary/10 font-serif leading-none select-none" aria-hidden>&ldquo;</span>
                 <div className="flex gap-0.5 mb-3">
                   {Array.from({ length: testimonial.stars }).map((_, j) => (
                     <span key={j} className="text-trail-secondary text-lg">&#9733;</span>
                   ))}
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed mb-4">{testimonial.text}</p>
+                <p className="text-sm text-gray-600 leading-relaxed mb-4 relative">{testimonial.text}</p>
                 <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
                   <div className="w-10 h-10 rounded-full bg-trail-primary/10 flex items-center justify-center text-trail-primary font-bold text-sm">
                     {testimonial.name.charAt(0)}
@@ -847,9 +968,46 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================= */}
+      {/* Trust / Social Proof Band */}
+      {/* ================================================================= */}
+      <section className="py-8 md:py-10 px-4 bg-gray-50 border-y border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-sm text-gray-400">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-trail-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <span className="font-medium text-trail-dark">安心のセキュリティ</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-trail-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 7V5a4 4 0 00-8 0v2" />
+              </svg>
+              <span className="font-medium text-trail-dark">個人情報保護方針準拠</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-trail-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+              <span className="font-medium text-trail-dark">教育専門家監修</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-trail-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+              <span className="font-medium text-trail-dark">いつでも解約OK</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
       {/* よくある質問 — FAQ */}
       {/* ================================================================= */}
-      <section className="py-14 md:py-16 px-4 bg-trail-light">
+      <section id="faq" className="py-14 md:py-16 px-4 bg-trail-light scroll-mt-16">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
