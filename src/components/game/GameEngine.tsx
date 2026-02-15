@@ -6,10 +6,11 @@ import CardGame from "./templates/CardGame";
 import MazeGame from "./templates/MazeGame";
 import SimulationGame from "./templates/SimulationGame";
 import PuzzleGame from "./templates/PuzzleGame";
+import IframeGame from "./templates/IframeGame";
 import ResultScreen from "./ResultScreen";
 
 type GameState = "intro" | "playing" | "finished";
-type TemplateType = "quiz" | "card" | "maze" | "simulation" | "puzzle";
+type TemplateType = "quiz" | "card" | "maze" | "simulation" | "puzzle" | "iframe";
 
 export interface GameResult {
   score: number;
@@ -106,6 +107,7 @@ export default function GameEngine({
     maze: MazeGame,
     simulation: SimulationGame,
     puzzle: PuzzleGame,
+    iframe: IframeGame,
   };
 
   // ---- Intro Screen ----
@@ -116,6 +118,7 @@ export default function GameEngine({
       maze: "探検",
       simulation: "シミュレーション",
       puzzle: "パズル",
+      iframe: "外部ゲーム",
     };
 
     const templateIcons: Record<TemplateType, string> = {
@@ -124,6 +127,7 @@ export default function GameEngine({
       maze: "🧭",
       simulation: "📊",
       puzzle: "🧩",
+      iframe: "🌐",
     };
 
     return (

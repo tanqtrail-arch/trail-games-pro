@@ -28,7 +28,7 @@ export type ScoreDisplayType = 'rank' | 'points' | 'stars' | 'title';
 export type FeedbackType = 'game_review' | 'nps' | 'feature_request' | 'churn_reason';
 
 /** ゲームテンプレートの種類 */
-export type GameTemplateType = 'quiz' | 'card' | 'maze' | 'simulation' | 'puzzle';
+export type GameTemplateType = 'quiz' | 'card' | 'maze' | 'simulation' | 'puzzle' | 'iframe';
 
 /** セッションの流入元 */
 export type SessionSource = 'direct' | 'dashboard' | 'recommendation' | 'share' | 'notification';
@@ -420,6 +420,22 @@ export interface PuzzleTemplate {
 }
 
 /**
+ * iframe テンプレート
+ * 外部ホストのゲームを iframe で埋め込む場合のテンプレート。
+ * ゲーム側は TRAIL SDK (trail-sdk.js) を読み込み、postMessage で通信する。
+ */
+export interface IframeTemplate {
+  /** テンプレート種別 */
+  type: 'iframe';
+  /** ゲームのURL（絶対URLまたは /public 内の相対パス） */
+  url: string;
+  /** iframe に渡す追加パラメータ（URLクエリとして付与） */
+  params?: Record<string, string>;
+  /** iframe の sandbox 属性（デフォルト: "allow-scripts allow-same-origin"） */
+  sandbox?: string;
+}
+
+/**
  * ゲームテンプレートのユニオン型
  * type フィールドによって判別可能なディスクリミネーテッドユニオン。
  */
@@ -428,7 +444,8 @@ export type GameTemplate =
   | CardTemplate
   | MazeTemplate
   | SimulationTemplate
-  | PuzzleTemplate;
+  | PuzzleTemplate
+  | IframeTemplate;
 
 // -----------------------------------------------------------------------------
 // ゲーム定義（テンプレート付き）

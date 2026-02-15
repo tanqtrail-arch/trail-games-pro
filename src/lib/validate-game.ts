@@ -12,7 +12,7 @@ export interface ValidationError {
 }
 
 const VALID_CATEGORIES: SubjectCategory[] = ['理科', '社会', '算数', '美術'];
-const VALID_TEMPLATE_TYPES: GameTemplateType[] = ['quiz', 'card', 'maze', 'simulation', 'puzzle'];
+const VALID_TEMPLATE_TYPES: GameTemplateType[] = ['quiz', 'card', 'maze', 'simulation', 'puzzle', 'iframe'];
 
 /**
  * GameWithTemplate データを検証する。
@@ -161,6 +161,18 @@ function validateTemplate(t: Record<string, unknown>): ValidationError[] {
       }
       if (!Array.isArray(t.solution) || t.solution.length === 0) {
         errors.push({ field: 'template.solution', message: 'solution は1つ以上の要素を持つ配列です' });
+      }
+      break;
+    }
+    case 'iframe': {
+      if (typeof t.url !== 'string' || t.url.length === 0) {
+        errors.push({ field: 'template.url', message: 'url は必須の文字列です（ゲームのURL）' });
+      }
+      if (t.params !== undefined && (typeof t.params !== 'object' || Array.isArray(t.params))) {
+        errors.push({ field: 'template.params', message: 'params はオブジェクトです（任意）' });
+      }
+      if (t.sandbox !== undefined && typeof t.sandbox !== 'string') {
+        errors.push({ field: 'template.sandbox', message: 'sandbox は文字列です（任意）' });
       }
       break;
     }

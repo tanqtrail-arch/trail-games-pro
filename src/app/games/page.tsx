@@ -67,6 +67,7 @@ function TemplateBadge({ type }: { type: GameTemplateType }) {
     maze: { label: '迷路', emoji: '&#128739;' },
     simulation: { label: 'シミュレーション', emoji: '&#127961;' },
     puzzle: { label: 'パズル', emoji: '&#129513;' },
+    iframe: { label: '外部ゲーム', emoji: '&#127760;' },
   };
   const info = labels[type];
   return (

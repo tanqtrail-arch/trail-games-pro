@@ -104,6 +104,7 @@ const templateLabels: Record<GameTemplateType, string> = {
   maze: '迷路',
   simulation: 'シミュレーション',
   puzzle: 'パズル',
+  iframe: '外部ゲーム',
 };
 
 // ---------------------------------------------------------------------------

@@ -25,6 +25,7 @@ import elementCard01 from './element-card-01';
 import edoMaze01 from './edo-maze-01';
 import ecoSim01 from './eco-sim-01';
 import numberPuzzle01 from './number-puzzle-01';
+import mathIframe01 from './math-iframe-01';
 
 const gameModules: GameWithTemplate[] = [
   historyQuiz01,
@@ -32,6 +33,7 @@ const gameModules: GameWithTemplate[] = [
   edoMaze01,
   ecoSim01,
   numberPuzzle01,
+  mathIframe01,
 ];
 
 // ---------------------------------------------------------------------------
