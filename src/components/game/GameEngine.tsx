@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 import QuizGame from "./templates/QuizGame";
 import CardGame from "./templates/CardGame";
 import MazeGame from "./templates/MazeGame";
@@ -21,7 +21,7 @@ export interface GameResult {
 }
 
 export interface ScoreDisplayConfig {
-  type: "rank" | "points" | "stars";
+  type: "rank" | "points" | "stars" | "title";
   ranks?: { threshold: number; label: string; color: string }[];
   maxStars?: number;
 }
@@ -38,6 +38,25 @@ interface GameEngineProps {
   templateType: TemplateType;
   scoreDisplayConfig: ScoreDisplayConfig;
   skillTags: SkillTags;
+}
+
+/**
+ * Build the config object that MazeGame expects from the full game object.
+ * MazeGame needs { title, nodes, edges, startNode, goalNode }.
+ */
+function buildMazeConfig(gameConfig: any) {
+  const tpl = gameConfig?.template;
+  if (tpl?.nodes && tpl?.edges) {
+    return {
+      title: gameConfig.title,
+      nodes: tpl.nodes,
+      edges: tpl.edges,
+      startNode: tpl.startNode,
+      goalNode: tpl.goalNode,
+    };
+  }
+  // Fallback: pass as-is (for pre-existing configs that already match shape)
+  return gameConfig;
 }
 
 export default function GameEngine({
@@ -245,9 +264,13 @@ export default function GameEngine({
       );
     }
 
+    // Maze games need a converted config (nodes/edges format)
+    const resolvedConfig =
+      templateType === "maze" ? buildMazeConfig(gameConfig) : gameConfig;
+
     return (
       <div className="min-h-screen bg-gray-50">
-        <TemplateComponent gameConfig={gameConfig} onFinish={handleFinish} />
+        <TemplateComponent gameConfig={resolvedConfig} onFinish={handleFinish} />
       </div>
     );
   }
