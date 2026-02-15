@@ -168,16 +168,38 @@ export default function AdminDashboardPage() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {/* Sub-header */}
-        <div className="mb-6">
-          <h2 className="text-lg font-bold text-slate-800">
-            {activeTab === "business"
-              ? "経営管理ダッシュボード"
-              : "次世代学習ダッシュボード"}
-          </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            最終更新: {new Date().toLocaleDateString("ja-JP")} {new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}
-            {" "}| データはモックです (MVP)
-          </p>
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-slate-800">
+              {activeTab === "business"
+                ? "経営管理ダッシュボード"
+                : "次世代学習ダッシュボード"}
+            </h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              最終更新: {new Date().toLocaleDateString("ja-JP")} {new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}
+              {" "}| データはモックです (MVP)
+            </p>
+          </div>
+
+          {/* Report Download Buttons */}
+          {activeTab === "business" && (
+            <div className="flex gap-2">
+              <a
+                href="/reports/business/weekly"
+                target="_blank"
+                className="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                週次レポート
+              </a>
+              <a
+                href="/reports/business/monthly"
+                target="_blank"
+                className="px-4 py-2 text-xs font-bold text-white bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
+              >
+                月次レポート
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Dashboard Content */}
