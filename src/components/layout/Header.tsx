@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth-context";
 
 const navLinks = [
   { href: "/games", label: "ゲーム一覧", icon: "🎮" },
@@ -11,6 +12,7 @@ const navLinks = [
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, isLoading, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
@@ -52,18 +54,56 @@ export default function Header() {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-trail-primary transition-colors"
-            >
-              ログイン
-            </Link>
-            <Link
-              href="/signup"
-              className="px-5 py-2 text-sm font-bold text-white bg-gradient-to-r from-trail-primary to-trail-secondary rounded-full hover:opacity-90 transition-all shadow-md hover:shadow-lg"
-            >
-              無料で始める
-            </Link>
+            {isLoading ? (
+              <div className="w-20 h-8 bg-gray-100 rounded-lg animate-pulse" />
+            ) : user ? (
+              /* Logged-in state */
+              <div className="flex items-center gap-3">
+                {user.role === "parent" && (
+                  <Link
+                    href="/dashboard/parent"
+                    className="px-3 py-1.5 text-xs font-bold text-trail-primary bg-trail-primary/10 rounded-lg hover:bg-trail-primary/20 transition-colors"
+                  >
+                    ダッシュボード
+                  </Link>
+                )}
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-xs font-black">
+                    {user.name.charAt(0)}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-trail-dark leading-tight">
+                      {user.name}
+                    </span>
+                    <span className="text-[10px] text-gray-400 leading-tight">
+                      Lv.{user.level} {user.grade}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={logout}
+                  className="px-3 py-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  ログアウト
+                </button>
+              </div>
+            ) : (
+              /* Guest state */
+              <>
+                <Link
+                  href="/auth"
+                  className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-trail-primary transition-colors"
+                >
+                  ログイン
+                </Link>
+                <Link
+                  href="/auth"
+                  className="px-5 py-2 text-sm font-bold text-white bg-gradient-to-r from-trail-primary to-trail-secondary rounded-full hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+                >
+                  無料で始める
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -118,20 +158,51 @@ export default function Header() {
             </Link>
           ))}
           <div className="pt-3 border-t border-gray-100 flex flex-col gap-2">
-            <Link
-              href="/login"
-              className="w-full text-center px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              ログイン
-            </Link>
-            <Link
-              href="/signup"
-              className="w-full text-center px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-trail-primary to-trail-secondary rounded-xl hover:opacity-90 transition-all shadow-md"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              無料で始める
-            </Link>
+            {user ? (
+              <>
+                <div className="flex items-center gap-3 px-4 py-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-xs font-black">
+                    {user.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-trail-dark">{user.name}</p>
+                    <p className="text-xs text-gray-400">Lv.{user.level} {user.grade}</p>
+                  </div>
+                </div>
+                {user.role === "parent" && (
+                  <Link
+                    href="/dashboard/parent"
+                    className="w-full text-center px-4 py-3 rounded-xl text-sm font-bold text-trail-primary bg-trail-primary/10"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    ダッシュボード
+                  </Link>
+                )}
+                <button
+                  onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                  className="w-full text-center px-4 py-3 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+                >
+                  ログアウト
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth"
+                  className="w-full text-center px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  ログイン
+                </Link>
+                <Link
+                  href="/auth"
+                  className="w-full text-center px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-trail-primary to-trail-secondary rounded-xl hover:opacity-90 transition-all shadow-md"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  無料で始める
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
