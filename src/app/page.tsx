@@ -552,6 +552,98 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================= */}
+      {/* TRAILの特徴 — Features Section */}
+      {/* ================================================================= */}
+      <section className="py-20 md:py-28 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14 reveal">
+            <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
+              TRAILが<span className="text-trail-primary">選ばれる理由</span>
+            </h2>
+            <p className="text-gray-500 max-w-lg mx-auto">
+              「遊んでるだけ」なのに、考える力がつく仕組み
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {[
+              {
+                icon: '&#129302;',
+                title: 'AIが学習カリキュラムを提案',
+                description: 'お子さまのプレイ履歴とスキルバランスをAIが分析。得意を伸ばし、苦手を補う最適なゲームを自動でおすすめします。',
+                color: 'bg-green-50 border-green-200',
+              },
+              {
+                icon: '&#128202;',
+                title: '保護者ダッシュボードで見える化',
+                description: '思考力・探究力・創造力の成長をグラフで確認。「今日何をしたか」「どれだけ伸びたか」がひと目でわかります。',
+                color: 'bg-yellow-50 border-yellow-200',
+              },
+              {
+                icon: '&#127922;',
+                title: '専用アプリ・教材は不要',
+                description: 'ブラウザだけでプレイ可能。タブレット、スマホ、PCどれでもOK。特別な機器や教材の購入は一切不要です。',
+                color: 'bg-sky-50 border-sky-200',
+              },
+              {
+                icon: '&#128640;',
+                title: '教科横断の探究ゲーム',
+                description: '理科・社会・算数・美術を横断するゲームで、教科書だけでは得られない「つながる学び」を体験できます。',
+                color: 'bg-rose-50 border-rose-200',
+              },
+            ].map((feature, i) => (
+              <div key={i} className={`rounded-2xl border p-6 md:p-8 ${feature.color} card-tilt`}>
+                <div className="flex items-start gap-4">
+                  <span className="text-4xl shrink-0" dangerouslySetInnerHTML={{ __html: feature.icon }} />
+                  <div>
+                    <h3 className="text-lg font-bold text-trail-dark mb-2">{feature.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
+      {/* こうやって始める — Steps Section */}
+      {/* ================================================================= */}
+      <section className="py-20 md:py-24 px-4 bg-trail-light">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14 reveal">
+            <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
+              <span className="text-trail-primary">3ステップ</span>で始められる
+            </h2>
+            <p className="text-gray-500">会員登録なしでも、すぐにゲームをプレイできます</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { step: '1', title: 'ゲームを選ぶ', description: '理科・社会・算数・美術から、興味のあるゲームを選ぼう。', emoji: '&#128270;' },
+              { step: '2', title: '遊びながら学ぶ', description: 'クイズ・パズル・カードバトルで楽しみながら探究力を鍛えよう。', emoji: '&#127918;' },
+              { step: '3', title: '成長を確認する', description: 'スキルレーダーチャートで思考力・探究力・創造力の成長が見える。', emoji: '&#128200;' },
+            ].map((item, i) => (
+              <div key={i} className="text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-trail-primary text-white flex items-center justify-center text-2xl font-black shadow-lg">
+                  {item.step}
+                </div>
+                <span className="text-3xl mb-3 block" dangerouslySetInnerHTML={{ __html: item.emoji }} />
+                <h3 className="text-lg font-bold text-trail-dark mb-2">{item.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
+                {i < 2 && (
+                  <div className="hidden md:block text-trail-primary/30 text-4xl mt-4 absolute right-0 top-1/2 -translate-y-1/2">&rarr;</div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/games" className="btn-primary text-lg">
+              ゲーム一覧を見る &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
       {/* Three Core Skills Section */}
       {/* ================================================================= */}
       <section className="py-20 md:py-28 px-4 relative overflow-hidden">
@@ -701,6 +793,111 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================= */}
+      {/* 保護者の声 — Testimonials */}
+      {/* ================================================================= */}
+      <section className="py-20 md:py-24 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14 reveal">
+            <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
+              <span className="text-trail-primary">保護者</span>の声
+            </h2>
+            <p className="text-gray-500">TRAILを使っているご家庭からのフィードバック</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'S.Tさん',
+                child: '小3のお子さま',
+                text: '「勉強しなさい」と言わなくなりました。自分からタブレットを開いてゲームに没頭しています。それが学びになっているのが嬉しいです。',
+                stars: 5,
+              },
+              {
+                name: 'M.Kさん',
+                child: '小5のお子さま',
+                text: '保護者ダッシュボードで子どもの成長が見えるのが安心。「探究力が伸びてるね」と具体的に褒められるようになりました。',
+                stars: 5,
+              },
+              {
+                name: 'A.Hさん',
+                child: '小1のお子さま',
+                text: '元素カードバトルにハマっています。いつの間にか元素記号を覚えていてびっくり。遊びの中で自然に知識が身につくのを実感しています。',
+                stars: 5,
+              },
+            ].map((testimonial, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 card-tilt">
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: testimonial.stars }).map((_, j) => (
+                    <span key={j} className="text-trail-secondary text-lg">&#9733;</span>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">{testimonial.text}</p>
+                <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
+                  <div className="w-10 h-10 rounded-full bg-trail-primary/10 flex items-center justify-center text-trail-primary font-bold text-sm">
+                    {testimonial.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-trail-dark">{testimonial.name}</p>
+                    <p className="text-xs text-gray-400">{testimonial.child}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
+      {/* よくある質問 — FAQ */}
+      {/* ================================================================= */}
+      <section className="py-20 md:py-24 px-4 bg-trail-light">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-14 reveal">
+            <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
+              よくある<span className="text-trail-primary">質問</span>
+            </h2>
+          </div>
+          <div className="space-y-4">
+            {[
+              {
+                q: '何歳から利用できますか？',
+                a: '小学1年生〜6年生を対象に設計しています。ひらがなが読めるお子さまであれば、低学年でも楽しめます。',
+              },
+              {
+                q: '1日の利用時間はどのくらいですか？',
+                a: '1回15〜20分を推奨しています。短い時間でも集中して取り組めるゲーム設計です。保護者ダッシュボードからプレイ時間の制限も設定できます。',
+              },
+              {
+                q: '学校の勉強に役立ちますか？',
+                a: 'TRAILは教科書の暗記ではなく「考える力」を育てます。論理的思考・情報整理・仮説検証のスキルは、学校の学びにも大いに活きます。',
+              },
+              {
+                q: '無料プランでどこまでできますか？',
+                a: '公開されている全ゲームを無制限にプレイできます。ランキングやレベルシステムも利用可能です。有料プランでは限定ゲームや詳細レポートが追加されます。',
+              },
+              {
+                q: '途中で解約できますか？',
+                a: 'はい、いつでも解約可能です。解約後も無料プランとしてご利用いただけます。違約金等は一切ありません。',
+              },
+              {
+                q: 'タブレットは必要ですか？',
+                a: 'いいえ、専用機器は不要です。ブラウザさえあればスマホ・タブレット・PCどれでもプレイできます。',
+              },
+            ].map((faq, i) => (
+              <details key={i} className="group bg-white rounded-xl border border-gray-100 shadow-sm">
+                <summary className="flex items-center justify-between cursor-pointer p-5 text-trail-dark font-bold text-sm md:text-base list-none">
+                  <span>{faq.q}</span>
+                  <span className="text-trail-primary text-xl transition-transform group-open:rotate-45 shrink-0 ml-4">+</span>
+                </summary>
+                <div className="px-5 pb-5 text-sm text-gray-600 leading-relaxed">
+                  {faq.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================= */}
       {/* Final CTA Section */}
       {/* ================================================================= */}
       <section className="py-20 md:py-28 px-4 relative">
@@ -726,6 +923,48 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ================================================================= */}
+      {/* Footer */}
+      {/* ================================================================= */}
+      <footer className="bg-trail-dark text-white py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <h4 className="font-black text-lg mb-4">TRAIL</h4>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                遊んでるだけなのに、考える力がつく。探究学習ゲームプラットフォーム。
+              </p>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-gray-300 mb-4">サービス</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="/games" className="hover:text-white transition-colors">ゲーム一覧</Link></li>
+                <li><Link href="/rankings" className="hover:text-white transition-colors">ランキング</Link></li>
+                <li><Link href="#pricing" className="hover:text-white transition-colors">料金プラン</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-gray-300 mb-4">保護者向け</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><Link href="/dashboard/parent" className="hover:text-white transition-colors">保護者ダッシュボード</Link></li>
+                <li><Link href="/profile" className="hover:text-white transition-colors">プロフィール</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-gray-300 mb-4">サポート</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">利用規約</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">プライバシーポリシー</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">お問い合わせ</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+            &copy; 2026 TRAIL — 探究学習ゲームプラットフォーム
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
