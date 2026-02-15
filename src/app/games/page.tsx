@@ -28,6 +28,7 @@ const ALL_TEMPLATES: Array<{ value: GameTemplateType | 'all'; label: string }> =
   { value: 'maze', label: '迷路' },
   { value: 'simulation', label: 'シミュレーション' },
   { value: 'puzzle', label: 'パズル' },
+  { value: 'fraction', label: '分数ガンマン' },
 ];
 
 const GRADE_FILTERS = [
@@ -68,6 +69,7 @@ function TemplateBadge({ type }: { type: GameTemplateType }) {
     simulation: { label: 'シミュレーション', emoji: '&#127961;' },
     puzzle: { label: 'パズル', emoji: '&#129513;' },
     iframe: { label: '外部ゲーム', emoji: '&#127760;' },
+    fraction: { label: '分数ガンマン', emoji: '&#128299;' },
   };
   const info = labels[type];
   return (

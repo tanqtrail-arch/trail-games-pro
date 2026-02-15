@@ -7,10 +7,11 @@ import MazeGame from "./templates/MazeGame";
 import SimulationGame from "./templates/SimulationGame";
 import PuzzleGame from "./templates/PuzzleGame";
 import IframeGame from "./templates/IframeGame";
+import FractionGame from "./templates/FractionGame";
 import ResultScreen from "./ResultScreen";
 
 type GameState = "intro" | "playing" | "finished";
-type TemplateType = "quiz" | "card" | "maze" | "simulation" | "puzzle" | "iframe";
+type TemplateType = "quiz" | "card" | "maze" | "simulation" | "puzzle" | "iframe" | "fraction";
 
 export interface GameResult {
   score: number;
@@ -127,6 +128,7 @@ export default function GameEngine({
     simulation: SimulationGame,
     puzzle: PuzzleGame,
     iframe: IframeGame,
+    fraction: FractionGame,
   };
 
   // ---- Intro Screen ----
@@ -138,6 +140,7 @@ export default function GameEngine({
       simulation: "シミュレーション",
       puzzle: "パズル",
       iframe: "外部ゲーム",
+      fraction: "分数ガンマン",
     };
 
     const templateIcons: Record<TemplateType, string> = {
@@ -147,6 +150,7 @@ export default function GameEngine({
       simulation: "📊",
       puzzle: "🧩",
       iframe: "🌐",
+      fraction: "🔫",
     };
 
     return (
