@@ -190,7 +190,7 @@ function FloatingShapes() {
 
 function ScrollIndicator() {
   return (
-    <div className="flex flex-col items-center mt-12 animate-scroll-down">
+    <div className="flex flex-col items-center mt-8 animate-scroll-down">
       <span className="text-xs text-gray-400 tracking-widest mb-2">SCROLL</span>
       <svg width="20" height="28" viewBox="0 0 20 28" fill="none" className="text-gray-300">
         <rect x="1" y="1" width="18" height="26" rx="9" stroke="currentColor" strokeWidth="2" />
@@ -430,7 +430,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Hero Section */}
       {/* ================================================================= */}
-      <section className="relative py-20 md:py-32 px-4 overflow-hidden min-h-[90vh] flex items-center aurora-bg noise-overlay">
+      <section className="relative py-16 md:py-24 px-4 overflow-hidden min-h-[80vh] flex items-center aurora-bg noise-overlay">
         {/* Dot grid texture for depth */}
         <div className="absolute inset-0 dot-grid-bg pointer-events-none" aria-hidden />
         {/* Parallax floating background */}
@@ -470,7 +470,7 @@ export default function HomePage() {
 
           {/* Subheadline */}
           <p
-            className={`text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed transition-all duration-700 delay-700 ${
+            className={`text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-8 leading-relaxed transition-all duration-700 delay-700 ${
               heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
@@ -514,7 +514,7 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Platform Stats Section */}
       {/* ================================================================= */}
-      <section className="py-14 md:py-20 px-4 bg-white/60 backdrop-blur-sm border-b border-gray-100 relative noise-overlay">
+      <section className="py-10 md:py-14 px-4 bg-white/60 backdrop-blur-sm border-b border-gray-100 relative noise-overlay">
         <div ref={statsRef} className="max-w-5xl mx-auto reveal">
           {stats && (
             <p className="text-center text-lg font-bold text-trail-primary mb-8">
@@ -554,9 +554,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* TRAILの特徴 — Features Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4">
+      <section className="py-14 md:py-20 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14 reveal">
+          <div className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               TRAILが<span className="text-trail-primary">選ばれる理由</span>
             </h2>
@@ -608,9 +608,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* こうやって始める — Steps Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-24 px-4 bg-trail-light">
+      <section className="py-14 md:py-16 px-4 bg-trail-light">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14 reveal">
+          <div className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               <span className="text-trail-primary">3ステップ</span>で始められる
             </h2>
@@ -635,7 +635,7 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-10">
+          <div className="text-center mt-8">
             <Link href="/games" className="btn-primary text-lg">
               ゲーム一覧を見る &rarr;
             </Link>
@@ -646,13 +646,13 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Three Core Skills Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4 relative overflow-hidden">
+      <section className="py-14 md:py-20 px-4 relative overflow-hidden">
         {/* Subtle background blob */}
         <div className="absolute top-20 right-0 w-64 h-64 bg-green-100/30 rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-10 left-0 w-56 h-56 bg-yellow-50/40 rounded-full blur-3xl -z-10" />
 
         <div className="max-w-5xl mx-auto">
-          <div ref={skillsHeadRef} className="text-center mb-14 reveal">
+          <div ref={skillsHeadRef} className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               TRAILで育つ<span className="text-trail-primary">三大要素</span>
             </h2>
@@ -689,10 +689,10 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Subject Categories Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-24 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden">
+      <section className="py-14 md:py-16 px-4 bg-gradient-to-b from-white to-trail-light relative overflow-hidden">
 
         <div className="max-w-5xl mx-auto">
-          <div ref={subjectsHeadRef} className="text-center mb-14 reveal">
+          <div ref={subjectsHeadRef} className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               教科から<span className="text-trail-secondary">探す</span>
             </h2>
@@ -730,10 +730,10 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Pricing Section */}
       {/* ================================================================= */}
-      <section id="pricing" className="py-20 md:py-28 px-4 relative overflow-hidden bg-trail-light">
+      <section id="pricing" className="py-14 md:py-20 px-4 relative overflow-hidden bg-trail-light">
 
         <div className="max-w-5xl mx-auto">
-          <div ref={pricingHeadRef} className="text-center mb-14 reveal">
+          <div ref={pricingHeadRef} className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               <span className="text-trail-primary">料金</span>プラン
             </h2>
@@ -795,9 +795,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* 保護者の声 — Testimonials */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-24 px-4">
+      <section className="py-14 md:py-16 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14 reveal">
+          <div className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               <span className="text-trail-primary">保護者</span>の声
             </h2>
@@ -849,9 +849,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* よくある質問 — FAQ */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-24 px-4 bg-trail-light">
+      <section className="py-14 md:py-16 px-4 bg-trail-light">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-14 reveal">
+          <div className="text-center mb-10 reveal">
             <h2 className="text-2xl md:text-4xl font-black text-trail-dark mb-4">
               よくある<span className="text-trail-primary">質問</span>
             </h2>
@@ -900,9 +900,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Final CTA Section */}
       {/* ================================================================= */}
-      <section className="py-20 md:py-28 px-4 relative">
+      <section className="py-14 md:py-20 px-4 relative">
         <div ref={ctaRef} className="max-w-3xl mx-auto text-center reveal-scale">
-          <div className="bg-gradient-to-br from-trail-primary to-green-600 rounded-3xl p-10 md:p-16 text-white shadow-2xl relative overflow-hidden">
+          <div className="bg-gradient-to-br from-trail-primary to-green-600 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
             <div className="absolute -top-16 -left-16 w-48 h-48 bg-white/5 rounded-full" />
             <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-white/10 rounded-full" />
 
@@ -927,9 +927,9 @@ export default function HomePage() {
       {/* ================================================================= */}
       {/* Footer */}
       {/* ================================================================= */}
-      <footer className="bg-trail-dark text-white py-16 px-4">
+      <footer className="bg-trail-dark text-white py-12 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
               <h4 className="font-black text-lg mb-4">TRAIL</h4>
               <p className="text-sm text-gray-400 leading-relaxed">
