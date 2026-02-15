@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { getTitleForLevel } from '@/lib/level';
+import { useAuth } from '@/lib/auth-context';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -339,7 +339,8 @@ function formatRelativeTime(dateStr: string): string {
 // ---------------------------------------------------------------------------
 
 export default function ProfilePage() {
-  const [isAuthenticated] = useState(false);
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
 
   const profile = mockProfile;
   const title = getTitleForLevel(profile.level);
@@ -370,13 +371,13 @@ export default function ProfilePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href="/login"
+                href="/auth"
                 className="px-6 py-3 bg-gradient-to-r from-trail-primary to-trail-secondary text-white rounded-xl font-bold hover:opacity-90 transition-all shadow-md"
               >
                 ログイン
               </Link>
               <Link
-                href="/signup"
+                href="/auth"
                 className="px-6 py-3 bg-white text-trail-primary rounded-xl font-bold border-2 border-trail-primary hover:bg-trail-primary/5 transition-all"
               >
                 無料で登録
