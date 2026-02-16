@@ -43,10 +43,46 @@ interface GameEngineProps {
   autoStart?: boolean;
 }
 
-/**
- * Build the config object that MazeGame expects from the full game object.
- * MazeGame needs { title, nodes, edges, startNode, goalNode }.
- */
+// ---------------------------------------------------------------------------
+// Config converters — translate the full game object into the shape each
+// template component expects.
+// ---------------------------------------------------------------------------
+
+/** QuizGame expects { title?, questions: [{ question, choices, correctIndex, explanation, timeLimit? }] } */
+function buildQuizConfig(gameConfig: any) {
+  const tpl = gameConfig?.template;
+  if (!tpl?.questions) return gameConfig;
+  return {
+    title: gameConfig.title,
+    questions: tpl.questions.map((q: any) => ({
+      question: q.question,
+      choices: q.choices,
+      correctIndex: q.correct_answer_index ?? q.correctIndex ?? 0,
+      explanation: q.explanation ?? "",
+      timeLimit: q.time_limit ?? q.timeLimit,
+    })),
+  };
+}
+
+/** CardGame expects { title?, cards: [{ id, front, back, value, category }], mode, matchPairs? } */
+function buildCardConfig(gameConfig: any) {
+  const tpl = gameConfig?.template;
+  if (!tpl?.cards) return gameConfig;
+  return {
+    title: gameConfig.title,
+    cards: tpl.cards.map((c: any, i: number) => ({
+      id: c.id ?? `card-${i}`,
+      front: c.front,
+      back: c.back,
+      value: c.value ?? i,
+      category: c.category ?? gameConfig.category ?? "",
+    })),
+    mode: tpl.match_rules === "exact" ? "matching" : (tpl.mode ?? "matching"),
+    matchPairs: tpl.pairs ?? tpl.matchPairs,
+  };
+}
+
+/** MazeGame expects { title?, nodes, edges, startNode, goalNode } */
 function buildMazeConfig(gameConfig: any) {
   const tpl = gameConfig?.template;
   if (tpl?.nodes && tpl?.edges) {
@@ -58,8 +94,154 @@ function buildMazeConfig(gameConfig: any) {
       goalNode: tpl.goalNode,
     };
   }
-  // Fallback: pass as-is (for pre-existing configs that already match shape)
   return gameConfig;
+}
+
+/** SimulationGame expects { title?, scenario, turns, resources[], actions[], winCondition } */
+function buildSimulationConfig(gameConfig: any) {
+  const tpl = gameConfig?.template;
+  if (!tpl) return gameConfig;
+
+  // Convert initial_params → resources array
+  const resources = Object.entries(tpl.initial_params || {}).map(
+    ([name, value]) => ({
+      name,
+      initial: value as number,
+      min: 0,
+      max: name === "予算" ? 2000 : name === "人口" ? 1000 : 100,
+    })
+  );
+
+  // If the template already has actions use those, otherwise generate defaults
+  const actions = tpl.actions ?? [
+    { id: "solar", label: "太陽光発電を設置", effects: { 環境: 10, 経済: 5, 予算: -150 }, description: "クリーンエネルギーで環境改善" },
+    { id: "recycle", label: "リサイクル施設を建設", effects: { 環境: 8, 住民満足度: 5, 予算: -120 }, description: "ゴミを減らして資源を有効活用" },
+    { id: "factory", label: "工場を誘致", effects: { 経済: 15, 環境: -8, 人口: 20, 予算: -100 }, description: "雇用を生み出し経済を活性化" },
+    { id: "park", label: "公園を整備", effects: { 住民満足度: 12, 環境: 5, 予算: -80 }, description: "緑豊かな公園で住民の憩いの場を" },
+    { id: "school", label: "学校を増設", effects: { 住民満足度: 8, 経済: 3, 人口: 15, 予算: -200 }, description: "教育環境を充実させる" },
+    { id: "market", label: "商店街を活性化", effects: { 経済: 10, 住民満足度: 8, 予算: -90 }, description: "地元の商店街を盛り上げよう" },
+  ];
+
+  // Convert success_conditions → single winCondition (pick first entry)
+  const entries = Object.entries(tpl.success_conditions || {});
+  const winCondition =
+    entries.length > 0
+      ? { resource: entries[0][0], target: entries[0][1] as number }
+      : { resource: "環境", target: 70 };
+
+  return {
+    title: gameConfig.title,
+    scenario: tpl.scenario,
+    turns: tpl.max_steps ?? tpl.turns ?? 5,
+    resources,
+    actions,
+    winCondition,
+  };
+}
+
+/** PuzzleGame expects { title?, puzzleType, puzzles: [{ question, options, correctIndex, hint? }] } */
+function buildPuzzleConfig(gameConfig: any) {
+  const tpl = gameConfig?.template;
+  if (!tpl) return gameConfig;
+
+  // Already in the expected format
+  if (tpl.puzzles) {
+    return { title: gameConfig.title, puzzleType: tpl.puzzleType ?? "sequence", puzzles: tpl.puzzles };
+  }
+
+  // Convert number-sequence data into puzzle objects
+  const puzzleTypeMap: Record<string, string> = {
+    number_sequence: "sequence",
+    logic: "logic",
+    pattern: "pattern",
+  };
+  const puzzleType = puzzleTypeMap[tpl.puzzle_type] || tpl.puzzle_type || "sequence";
+
+  const puzzles = generateSequencePuzzles(tpl.solution, tpl.hints);
+
+  return { title: gameConfig.title, puzzleType, puzzles };
+}
+
+/** Generate number-sequence puzzles from solution array + hints */
+function generateSequencePuzzles(
+  solutions: number[] | undefined,
+  hints: string[] | undefined
+) {
+  if (!solutions || solutions.length === 0) return [];
+
+  // Sequence templates keyed by pattern description
+  const sequenceBuilders: Array<{
+    build: () => { seq: number[]; answer: number };
+  }> = [
+    { build: () => ({ seq: [2, 4, 6, 8], answer: 10 }) },
+    { build: () => ({ seq: [3, 6, 9, 12], answer: 15 }) },
+    { build: () => ({ seq: [1, 2, 4, 8, 16], answer: 32 }) },
+    { build: () => ({ seq: [4, 8, 12, 20], answer: 32 }) },
+    { build: () => ({ seq: [1, 3, 6, 10, 15], answer: 21 }) },
+  ];
+
+  return solutions.map((answer, i) => {
+    // Try to use a matching builder, otherwise create a simple +N pattern
+    const builder = sequenceBuilders[i];
+    let seq: number[];
+    if (builder && builder.build().answer === answer) {
+      seq = builder.build().seq;
+    } else {
+      // Generate a simple additive sequence ending at answer
+      const step = Math.max(1, Math.floor(answer / 5));
+      seq = Array.from({ length: 4 }, (_, j) => answer - step * (4 - j));
+    }
+
+    const seqStr = seq.join(", ");
+
+    // Build 4 options around the answer
+    const options = shuffleOptions(answer);
+
+    return {
+      question: `次の数列の「？」に入る数は？\n${seqStr}, ?`,
+      options: options.map(String),
+      correctIndex: options.indexOf(answer),
+      hint: hints?.[i],
+    };
+  });
+}
+
+function shuffleOptions(answer: number): number[] {
+  const opts = new Set<number>([answer]);
+  while (opts.size < 4) {
+    const offset = Math.floor(Math.random() * 10) - 5 || 1;
+    opts.add(answer + offset);
+  }
+  const arr = Array.from(opts);
+  // Fisher-Yates shuffle
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/**
+ * Route the full game object through the correct converter for the given
+ * template type.
+ */
+function buildTemplateConfig(gameConfig: any, templateType: string) {
+  switch (templateType) {
+    case "quiz":
+      return buildQuizConfig(gameConfig);
+    case "card":
+      return buildCardConfig(gameConfig);
+    case "maze":
+      return buildMazeConfig(gameConfig);
+    case "simulation":
+      return buildSimulationConfig(gameConfig);
+    case "puzzle":
+      return buildPuzzleConfig(gameConfig);
+    case "iframe":
+      return gameConfig; // IframeGame expects the full game object
+    default:
+      return gameConfig;
+  }
 }
 
 export default function GameEngine({
@@ -271,9 +453,8 @@ export default function GameEngine({
       );
     }
 
-    // Maze games need a converted config (nodes/edges format)
-    const resolvedConfig =
-      templateType === "maze" ? buildMazeConfig(gameConfig) : gameConfig;
+    // Convert the full game object into the shape the template expects
+    const resolvedConfig = buildTemplateConfig(gameConfig, templateType);
 
     return (
       <div className="min-h-screen bg-gray-50">

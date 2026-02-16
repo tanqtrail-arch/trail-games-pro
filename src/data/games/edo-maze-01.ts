@@ -19,6 +19,7 @@ const game: GameWithTemplate = {
   description:
     '江戸時代にタイムスリップ！迷路を進みながら、各チェックポイントでクイズに答えて江戸の文化や生活について学ぼう。寺子屋、歌舞伎、参勤交代など、江戸時代の暮らしが体験できます。',
   thumbnail_url: '',
+  is_new: true,
   score_display_config: {
     type: 'title',
     rules: [

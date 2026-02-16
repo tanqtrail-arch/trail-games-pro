@@ -109,6 +109,12 @@ function GameCard({
         >
           {game.category}
         </span>
+        {/* NEW badge */}
+        {game.is_new && (
+          <span className="absolute top-3 right-3 px-2 py-0.5 text-[10px] font-black tracking-wider bg-red-500 text-white rounded-full shadow-md animate-pulse">
+            NEW
+          </span>
+        )}
       </div>
 
       {/* Card body */}

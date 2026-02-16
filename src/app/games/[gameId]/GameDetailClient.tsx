@@ -153,6 +153,11 @@ function GameInfo({
           <span className="badge bg-gray-100 text-gray-600">
             {templateLabels[game.template.type]}
           </span>
+          {game.is_new && (
+            <span className="badge bg-red-500 text-white text-[10px] font-black tracking-wider animate-pulse">
+              NEW
+            </span>
+          )}
         </div>
         <h1 className="text-2xl md:text-3xl font-black text-trail-dark">
           {game.title}
