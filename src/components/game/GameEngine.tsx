@@ -44,10 +44,33 @@ interface GameEngineProps {
   autoStart?: boolean;
 }
 
-/**
- * Build the config object that MazeGame expects from the full game object.
- * MazeGame needs { title, nodes, edges, startNode, goalNode }.
- */
+// =============================================================================
+// Config resolvers — convert GameWithTemplate data into the shape each
+// template component expects.  All resolvers receive the FULL game object and
+// return a flat config the component can destructure directly.
+// =============================================================================
+
+/** Flatten template into top-level fields so components can destructure directly. */
+function flattenTemplate(gameConfig: any): any {
+  const tpl = gameConfig?.template;
+  if (!tpl) return gameConfig;
+  return { ...gameConfig, ...tpl };
+}
+
+/** QuizGame expects { questions[].correctIndex, .timeLimit } */
+function buildQuizConfig(gameConfig: any) {
+  const flat = flattenTemplate(gameConfig);
+  return {
+    ...flat,
+    questions: (flat.questions || []).map((q: any) => ({
+      ...q,
+      correctIndex: q.correctIndex ?? q.correct_answer_index ?? 0,
+      timeLimit: q.timeLimit ?? q.time_limit,
+    })),
+  };
+}
+
+/** MazeGame expects { title, nodes, edges, startNode, goalNode } */
 function buildMazeConfig(gameConfig: any) {
   const tpl = gameConfig?.template;
   if (tpl?.nodes && tpl?.edges) {
@@ -59,8 +82,139 @@ function buildMazeConfig(gameConfig: any) {
       goalNode: tpl.goalNode,
     };
   }
-  // Fallback: pass as-is (for pre-existing configs that already match shape)
   return gameConfig;
+}
+
+/** CardGame expects { cards[].{id, front, back, value, category}, mode, matchPairs } */
+function buildCardConfig(gameConfig: any) {
+  const flat = flattenTemplate(gameConfig);
+  const cards = (flat.cards || []).map((c: any, i: number) => ({
+    id: c.id || `card-${i}`,
+    front: c.front || "",
+    back: c.back || "",
+    value: c.value ?? i,
+    category: c.category || "default",
+  }));
+  return {
+    ...flat,
+    cards,
+    mode: flat.mode || "matching",
+    matchPairs: flat.matchPairs ?? flat.pairs ?? Math.min(cards.length, 6),
+  };
+}
+
+/** SimulationGame expects { scenario, turns, resources[], actions[], winCondition } */
+function buildSimulationConfig(gameConfig: any) {
+  const flat = flattenTemplate(gameConfig);
+  const initialParams: Record<string, number> = flat.initial_params || {};
+  const successConditions: Record<string, number> = flat.success_conditions || {};
+  const resourceNames = Object.keys(initialParams);
+
+  const resources = resourceNames.map((name) => ({
+    name,
+    initial: initialParams[name],
+    min: 0,
+    max: Math.max(initialParams[name] * 3, 100),
+  }));
+
+  // Generate actions from resources when not provided
+  const actions: any[] = flat.actions || resourceNames.map((name, i) => {
+    const others = resourceNames.filter((n) => n !== name);
+    const effects: Record<string, number> = { [name]: 15 };
+    if (others.length > 0) effects[others[0]] = -5;
+    return {
+      id: `action-${i}`,
+      label: `${name}を強化`,
+      effects,
+      description: `${name}を改善します`,
+    };
+  });
+
+  // Add a balanced action if we auto-generated
+  if (!flat.actions && resourceNames.length > 0) {
+    actions.push({
+      id: "action-balanced",
+      label: "バランス改善",
+      effects: Object.fromEntries(resourceNames.map((n) => [n, 5])),
+      description: "すべてを少しずつ改善します",
+    });
+  }
+
+  const firstCond = Object.entries(successConditions)[0];
+  const winCondition = firstCond
+    ? { resource: firstCond[0], target: firstCond[1] as number }
+    : { resource: resourceNames[0] || "", target: 70 };
+
+  return {
+    ...flat,
+    turns: flat.turns ?? flat.max_steps ?? 5,
+    resources,
+    actions,
+    winCondition,
+  };
+}
+
+/** PuzzleGame expects { puzzleType, puzzles[].{question, options[], correctIndex, hint?} } */
+function buildPuzzleConfig(gameConfig: any) {
+  const flat = flattenTemplate(gameConfig);
+  const puzzleType = flat.puzzleType || (flat.puzzle_type === "number_sequence" ? "sequence" : flat.puzzle_type) || "logic";
+  const solution: Array<number | string> = flat.solution || [];
+  const hints: string[] = flat.hints || [];
+
+  // If component-ready puzzles already exist, use them
+  if (flat.puzzles && Array.isArray(flat.puzzles) && flat.puzzles.length > 0) {
+    return { ...flat, puzzleType };
+  }
+
+  // Generate puzzles from solution/hints
+  const puzzles = solution.map((answer, i) => {
+    const numAnswer = typeof answer === "number" ? answer : parseInt(String(answer), 10);
+    const offsets = [3, -2, 5, -4, 7];
+    const wrongAnswers = [1, 2, 3].map((j) => numAnswer + offsets[(i + j) % offsets.length]);
+    const allOptions = [numAnswer, ...wrongAnswers].map(String);
+    // Shuffle but track correct index
+    const shuffled = allOptions
+      .map((val, idx) => ({ val, sort: idx === 0 ? -1 : Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map((x) => x.val);
+    const correctIndex = shuffled.indexOf(String(numAnswer));
+
+    return {
+      question: hints[i] || `次の答えは？`,
+      options: shuffled,
+      correctIndex,
+      hint: hints[i],
+    };
+  });
+
+  return {
+    ...flat,
+    puzzleType,
+    puzzles: puzzles.length > 0 ? puzzles : [{ question: "パズル", options: ["A", "B", "C"], correctIndex: 0 }],
+  };
+}
+
+/**
+ * Resolve game config for any template type.
+ * Converts the GameWithTemplate data structure into the flat shape
+ * each template component expects.
+ */
+function resolveGameConfig(gameConfig: any, templateType: string): any {
+  switch (templateType) {
+    case "quiz":
+      return buildQuizConfig(gameConfig);
+    case "maze":
+      return buildMazeConfig(gameConfig);
+    case "card":
+      return buildCardConfig(gameConfig);
+    case "simulation":
+      return buildSimulationConfig(gameConfig);
+    case "puzzle":
+      return buildPuzzleConfig(gameConfig);
+    default:
+      // fraction, iframe, mental-math — these already handle nested access
+      return flattenTemplate(gameConfig);
+  }
 }
 
 export default function GameEngine({
@@ -275,9 +429,8 @@ export default function GameEngine({
       );
     }
 
-    // Maze games need a converted config (nodes/edges format)
-    const resolvedConfig =
-      templateType === "maze" ? buildMazeConfig(gameConfig) : gameConfig;
+    // Convert raw GameWithTemplate data into the flat shape each template expects
+    const resolvedConfig = resolveGameConfig(gameConfig, templateType);
 
     return (
       <div className="min-h-screen bg-gray-50">
