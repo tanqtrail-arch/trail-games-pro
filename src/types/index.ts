@@ -140,6 +140,8 @@ export interface Game {
   thumbnail_url: string;
   /** スコア表示設定 */
   score_display_config: ScoreDisplayConfig;
+  /** 新規追加ゲームフラグ（一覧で NEW バッジを表示） */
+  is_new?: boolean;
 }
 
 // -----------------------------------------------------------------------------
