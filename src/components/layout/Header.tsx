@@ -67,6 +67,12 @@ export default function Header() {
                     ダッシュボード
                   </Link>
                 )}
+                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 rounded-full border border-amber-200/60">
+                  <span className="text-sm">&#x1FA99;</span>
+                  <span className="text-xs font-bold text-amber-700">
+                    {(user.coins ?? 0).toLocaleString()}
+                  </span>
+                </div>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-xs font-black">
                     {user.name.charAt(0)}
@@ -164,9 +170,15 @@ export default function Header() {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-trail-primary to-trail-secondary flex items-center justify-center text-white text-xs font-black">
                     {user.name.charAt(0)}
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm font-bold text-trail-dark">{user.name}</p>
                     <p className="text-xs text-gray-400">Lv.{user.level} {user.grade}</p>
+                  </div>
+                  <div className="flex items-center gap-1 px-2.5 py-1 bg-amber-50 rounded-full border border-amber-200/60">
+                    <span className="text-sm">&#x1FA99;</span>
+                    <span className="text-xs font-bold text-amber-700">
+                      {(user.coins ?? 0).toLocaleString()}
+                    </span>
                   </div>
                 </div>
                 {user.role === "parent" && (

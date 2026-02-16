@@ -21,6 +21,8 @@ export interface AuthUser {
   grade: string;
   level: number;
   xp: number;
+  coins: number;
+  totalCoinsEarned: number;
   plan_type: "free" | "monitor" | "paid";
 }
 
@@ -30,6 +32,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
+  addCoins: (amount: number) => void;
 }
 
 interface RegisterData {
@@ -63,6 +66,8 @@ const DEMO_USERS: Record<string, { password: string; user: AuthUser }> = {
       grade: "小4",
       level: 12,
       xp: 2450,
+      coins: 320,
+      totalCoinsEarned: 1580,
       plan_type: "free",
     },
   },
@@ -76,6 +81,8 @@ const DEMO_USERS: Record<string, { password: string; user: AuthUser }> = {
       grade: "小4",
       level: 1,
       xp: 0,
+      coins: 0,
+      totalCoinsEarned: 0,
       plan_type: "free",
     },
   },
@@ -160,6 +167,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         grade: data.grade,
         level: 1,
         xp: 0,
+        coins: 0,
+        totalCoinsEarned: 0,
         plan_type: "free",
       };
 
@@ -182,12 +191,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [persistUser]
   );
 
+  const addCoins = useCallback(
+    (amount: number) => {
+      if (!user || amount <= 0) return;
+      const updated: AuthUser = {
+        ...user,
+        coins: (user.coins ?? 0) + amount,
+        totalCoinsEarned: (user.totalCoinsEarned ?? 0) + amount,
+      };
+      persistUser(updated);
+    },
+    [user, persistUser]
+  );
+
   const logout = useCallback(() => {
     persistUser(null);
   }, [persistUser]);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, logout, addCoins }}>
       {children}
     </AuthContext.Provider>
   );

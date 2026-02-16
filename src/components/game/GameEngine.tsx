@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useCallback, useRef, useMemo } from "react";
+import { useState, useCallback, useRef } from "react";
+import { calculateCoinsEarned } from "@/lib/level";
+import { useAuth } from "@/lib/auth-context";
 import QuizGame from "./templates/QuizGame";
 import CardGame from "./templates/CardGame";
 import MazeGame from "./templates/MazeGame";
@@ -227,9 +229,11 @@ export default function GameEngine({
 }: GameEngineProps) {
   const [gameState, setGameState] = useState<GameState>(autoStart ? "playing" : "intro");
   const [result, setResult] = useState<GameResult | null>(null);
+  const [coinsEarned, setCoinsEarned] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const startTimeRef = useRef<number>(0);
+  const { user, addCoins } = useAuth();
 
   const gameTitle = gameConfig?.title || "ゲーム";
 
@@ -243,6 +247,16 @@ export default function GameEngine({
       setResult(gameResult);
       setSubmitting(true);
       setSubmitError(null);
+
+      // Calculate coins earned
+      const coins = calculateCoinsEarned(
+        gameResult.score,
+        gameResult.maxScore,
+        gameResult.timeSeconds,
+        gameResult.skills
+      );
+      setCoinsEarned(coins);
+      addCoins(coins);
 
       try {
         const response = await fetch("/api/scores", {
@@ -270,11 +284,12 @@ export default function GameEngine({
         setGameState("finished");
       }
     },
-    [gameId]
+    [gameId, addCoins]
   );
 
   const handleReplay = useCallback(() => {
     setResult(null);
+    setCoinsEarned(0);
     setSubmitError(null);
     setGameState("intro");
   }, []);
@@ -452,6 +467,8 @@ export default function GameEngine({
         onReplay={handleReplay}
         submitting={submitting}
         submitError={submitError}
+        coinsEarned={coinsEarned}
+        totalCoins={user?.coins ?? 0}
       />
     );
   }

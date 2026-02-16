@@ -46,6 +46,16 @@ function calculateLevel(xp: number): number {
   return Math.max(1, Math.floor(xp / 100) + 1);
 }
 
+/** Calculate coins earned from a game play (mirrors client-side logic). */
+function calculateCoins(score: number, maxScore: number, timeSeconds: number = 0): number {
+  if (maxScore <= 0 || score <= 0) return 0;
+  const percent = Math.min(score / maxScore, 1);
+  const baseCoins = 5 + (30 - 5) * percent;
+  const speedBonus = timeSeconds > 0 && timeSeconds < 60 ? 1.2 : timeSeconds > 300 ? 0.9 : 1.0;
+  const perfectBonus = percent >= 1.0 ? 5 : 0;
+  return Math.max(1, Math.round(baseCoins * speedBonus + perfectBonus));
+}
+
 // ---------------------------------------------------------------------------
 // POST /api/scores  –  Submit a score
 // ---------------------------------------------------------------------------
@@ -160,10 +170,13 @@ export async function POST(request: Request) {
       }
     }
 
+    const coinsEarned = calculateCoins(body.score, body.max_score, body.time_seconds);
+
     return NextResponse.json({
       success: true,
       score_id: scoreData.id,
       xp_gained: xpGained,
+      coins_earned: coinsEarned,
       new_level: newLevel,
     });
   } catch (err: unknown) {

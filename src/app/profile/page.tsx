@@ -28,6 +28,8 @@ const mockProfile = {
   xp: 12850,
   xpForCurrentLevel: 12000,
   xpForNextLevel: 14000,
+  coins: 320,
+  totalCoinsEarned: 1580,
   totalPlays: 187,
   totalPlayTime: 32400, // seconds
   averageScore: 78,
@@ -420,6 +422,29 @@ export default function ProfilePage() {
                 min={profile.xpForCurrentLevel}
                 max={profile.xpForNextLevel}
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Coin balance card */}
+        <div className="card mb-6 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200/40">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-2xl shadow-md">
+                &#x1FA99;
+              </div>
+              <div>
+                <div className="text-xs text-amber-600/80 font-medium">保有コイン</div>
+                <div className="text-2xl font-black text-amber-700">
+                  {(user?.coins ?? profile.coins ?? 0).toLocaleString()}
+                </div>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-gray-400">累計獲得</div>
+              <div className="text-sm font-bold text-amber-600/70">
+                {(user?.totalCoinsEarned ?? profile.totalCoinsEarned ?? 0).toLocaleString()} コイン
+              </div>
             </div>
           </div>
         </div>

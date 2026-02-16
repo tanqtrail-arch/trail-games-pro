@@ -181,3 +181,60 @@ export function calculateXpGain(
 
   return Math.max(1, Math.round(totalXp));
 }
+
+// ---------------------------------------------------------------------------
+// Coin calculation
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate coins earned from a single game play.
+ *
+ * Base coins scale with score percentage (5-30).
+ * A speed bonus rewards faster clears, and a skill bonus rewards games
+ * that tag multiple skill axes.
+ *
+ * @param score      - The raw score the player achieved.
+ * @param maxScore   - The maximum possible score for the game.
+ * @param timeSeconds - Time taken to complete the game.
+ * @param gameSkills - Object mapping skill names to their awarded values (0-100).
+ * @returns Coins earned (integer, minimum 1 if score > 0).
+ */
+export function calculateCoinsEarned(
+  score: number,
+  maxScore: number,
+  timeSeconds: number = 0,
+  gameSkills: GameSkills = {}
+): number {
+  if (maxScore <= 0 || score <= 0) return 0;
+
+  const percent = Math.min(score / maxScore, 1);
+
+  // Base coins: 5-30 range based on percent
+  const BASE_MIN = 5;
+  const BASE_MAX = 30;
+  const baseCoins = BASE_MIN + (BASE_MAX - BASE_MIN) * percent;
+
+  // Speed bonus: clear in under 60s → 1.2x, over 300s → 0.9x
+  const speedBonus =
+    timeSeconds > 0 && timeSeconds < 60
+      ? 1.2
+      : timeSeconds > 300
+      ? 0.9
+      : 1.0;
+
+  // Skill bonus: each skill axis adds up to 5%
+  const skillValues = Object.values(gameSkills).filter(
+    (v): v is number => typeof v === "number"
+  );
+  const skillBonus =
+    skillValues.length > 0
+      ? skillValues.reduce((sum, v) => sum + (v / 100) * 0.05, 0)
+      : 0;
+
+  // Perfect bonus: 100% score → extra 5 coins
+  const perfectBonus = percent >= 1.0 ? 5 : 0;
+
+  const total = baseCoins * speedBonus * (1 + skillBonus) + perfectBonus;
+
+  return Math.max(1, Math.round(total));
+}

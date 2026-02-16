@@ -20,6 +20,8 @@ interface ResultScreenProps {
   onReplay: () => void;
   submitting?: boolean;
   submitError?: string | null;
+  coinsEarned?: number;
+  totalCoins?: number;
 }
 
 // ---- SVG Radar Chart ----
@@ -368,6 +370,72 @@ function Confetti() {
   );
 }
 
+// ---- Coin Earned Display ----
+function CoinEarnedDisplay({
+  coinsEarned,
+  totalCoins,
+}: {
+  coinsEarned: number;
+  totalCoins: number;
+}) {
+  const [animatedCoins, setAnimatedCoins] = useState(0);
+  const [showTotal, setShowTotal] = useState(false);
+
+  useEffect(() => {
+    // Animate coin counter
+    const duration = 800;
+    const steps = 20;
+    const increment = coinsEarned / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      setAnimatedCoins(Math.min(coinsEarned, Math.round(increment * step)));
+      if (step >= steps) {
+        setAnimatedCoins(coinsEarned);
+        clearInterval(timer);
+        // Show total after a short delay
+        setTimeout(() => setShowTotal(true), 300);
+      }
+    }, duration / steps);
+
+    return () => clearInterval(timer);
+  }, [coinsEarned]);
+
+  return (
+    <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-2xl shadow-xl p-5 mb-4 border border-yellow-200/60 relative overflow-hidden">
+      {/* Shimmer effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_ease-in-out_infinite]" />
+
+      <div className="relative z-10">
+        <p className="text-xs font-bold text-amber-600/80 text-center mb-2 uppercase tracking-wider">
+          獲得コイン
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <span className="text-4xl animate-bounce" style={{ animationDuration: "1.5s" }}>
+            &#x1FA99;
+          </span>
+          <span className="text-4xl sm:text-5xl font-black text-amber-600">
+            +{animatedCoins}
+          </span>
+        </div>
+        <div
+          className={`text-center mt-3 transition-all duration-500 ${
+            showTotal ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+        >
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/80 rounded-full border border-amber-200/50">
+            <span className="text-sm">&#x1FA99;</span>
+            <span className="text-xs font-bold text-amber-700">
+              {totalCoins.toLocaleString()} コイン
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ---- Main ResultScreen ----
 export default function ResultScreen({
   score,
@@ -379,6 +447,8 @@ export default function ResultScreen({
   onReplay,
   submitting,
   submitError,
+  coinsEarned = 0,
+  totalCoins = 0,
 }: ResultScreenProps) {
   const percentage = Math.round((score / maxScore) * 100);
   const isHighScore = percentage >= 80;
@@ -482,6 +552,11 @@ export default function ResultScreen({
             </p>
           )}
         </div>
+
+        {/* Coins earned */}
+        {coinsEarned > 0 && (
+          <CoinEarnedDisplay coinsEarned={coinsEarned} totalCoins={totalCoins} />
+        )}
 
         {/* Skills radar chart */}
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-4 border border-gray-100">
@@ -711,6 +786,14 @@ export default function ResultScreen({
           }
           50% {
             transform: scale(1.05);
+          }
+        }
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
           }
         }
       `}</style>
